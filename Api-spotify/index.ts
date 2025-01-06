@@ -12,6 +12,8 @@ app.use('/artists', ArtistRouter);
 app.use('/albums', AlbumsRouter);
 app.use('/tracks', TracksRouter);
 
+app.use(express.static('public'));
+
 const run = async () => {
 
     await mongoose.connect('mongodb://localhost/spotify');

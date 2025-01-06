@@ -1,5 +1,7 @@
 import express from "express";
 import Albums from "../models/Albums";
+import {imagesUpload} from "../multer";
+import {AlbumMutation} from "../types";
 
 const AlbumsRouter = express.Router();
 
@@ -29,7 +31,7 @@ AlbumsRouter.get("/:id", async (req, res) => {
     }
 });
 
-AlbumsRouter.post("/", async (req, res) => {
+AlbumsRouter.post("/", imagesUpload.single('image') , async (req, res) => {
     try {
 
         const { artist, year } = req.body;
@@ -40,15 +42,16 @@ AlbumsRouter.post("/", async (req, res) => {
 
         const newYear = new Date().toString();
 
-        const newAlbum = {
+        const newAlbum: AlbumMutation = {
             name: req.body.name,
-            photo: req.body.photo,
+            photo: req.file ? req.file.filename : null,
             year: newYear,
             artist: req.body.artist,
         }
 
         const album = new Albums(newAlbum);
         await album.save();
+
 
         res.status(200).send(album);
     } catch (error) {
