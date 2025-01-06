@@ -12,6 +12,23 @@ AlbumsRouter.get("/", async (req, res) => {
     }
 });
 
+AlbumsRouter.get("/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const album = await Albums.findById(id).populate("artist");
+
+        if (!id) {
+            res.status(404).send("Not Found");
+            return;
+        }
+
+        res.status(200).send(album);
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 AlbumsRouter.post("/", async (req, res) => {
     try {
 
