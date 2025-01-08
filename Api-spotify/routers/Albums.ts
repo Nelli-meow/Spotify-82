@@ -38,6 +38,7 @@ AlbumsRouter.post("/", imagesUpload.single('image') , async (req, res) => {
 
         if(!artist || !year) {
             res.status(400).send('artist is required');
+            return;
         }
 
         const newYear = new Date().toString();

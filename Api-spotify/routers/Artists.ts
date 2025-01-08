@@ -21,6 +21,7 @@ ArtistRouter.post("/", imagesUpload.single('image'), async (req, res) => {
 
         if(!name) {
             res.status(400).send('Name is required');
+            return;
         }
 
         const newArtist: ArtistMutation = {

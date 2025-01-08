@@ -16,6 +16,7 @@ TracksRouter.get("/", async (req, res) => {
             path: "album",
             populate: {
                 path: "artist",
+                model: "Artist",
             }
         });
 
@@ -30,17 +31,18 @@ TracksRouter.get("/", async (req, res) => {
 TracksRouter.post("/", async (req, res) => {
     try {
 
-        const { name } = req.body;
+        const { name, album } = req.body;
 
         if(!name) {
             res.status(400).send('name is required');
+            return;
         }
 
         const SongDuration = await getRandomDuration();
 
         const newTrack = {
-            name: req.body.name,
-            album: req.body.album,
+            name: name,
+            album: album,
             duration: SongDuration,
         }
 
