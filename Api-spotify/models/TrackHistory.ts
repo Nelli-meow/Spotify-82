@@ -20,6 +20,5 @@ const TrackHistorySchema = new Schema({
     }
 });
 
-
 const TrackHistory = mongoose.model('TrackHistory', TrackHistorySchema);
 export default TrackHistory;
