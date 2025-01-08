@@ -1,5 +1,5 @@
 import express from "express";
-import Artist from "../models/Artists";
+import Artist from "../models/Artist";
 import {imagesUpload} from "../multer";
 import {ArtistMutation} from "../types";
 
@@ -25,7 +25,7 @@ ArtistRouter.post("/", imagesUpload.single('image'), async (req, res) => {
 
         const newArtist: ArtistMutation = {
             name: req.body.name,
-            photo: req.file ? req.file.filename : null,
+            photo: req.file ? 'images' + req.file.filename : null,
             information: req.body.information,
         }
 

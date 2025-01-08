@@ -1,13 +1,13 @@
 import express from "express";
-import Albums from "../models/Albums";
 import {imagesUpload} from "../multer";
 import {AlbumMutation} from "../types";
+import Album from "../models/Album";
 
 const AlbumsRouter = express.Router();
 
 AlbumsRouter.get("/", async (req, res) => {
     try {
-        const album = await Albums.find().populate("artist");
+        const album = await Album.find().populate("artist");
         res.status(200).send(album);
     } catch (error) {
         console.log(error);
@@ -18,7 +18,7 @@ AlbumsRouter.get("/:id", async (req, res) => {
     try {
         const { id } = req.params;
 
-        const album = await Albums.findById(id).populate("artist");
+        const album = await Album.findById(id).populate("artist");
 
         if (!id) {
             res.status(404).send("Not Found");
@@ -44,12 +44,12 @@ AlbumsRouter.post("/", imagesUpload.single('image') , async (req, res) => {
 
         const newAlbum: AlbumMutation = {
             name: req.body.name,
-            photo: req.file ? req.file.filename : null,
+            photo: req.file ? 'images' + req.file.filename : null,
             year: newYear,
             artist: req.body.artist,
         }
 
-        const album = new Albums(newAlbum);
+        const album = new Album(newAlbum);
         await album.save();
 
 

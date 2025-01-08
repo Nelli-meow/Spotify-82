@@ -10,12 +10,12 @@ const TracksSchema = new Schema({
     album: {
         type: String,
         required: true,
-        ref: "Albums",
+        ref: "Album",
     },
     duration: {
         type: String,
     },
 });
 
-const Tracks = mongoose.model('Tracks', TracksSchema);
-export default Tracks;
+const Track = mongoose.model('Track', TracksSchema);
+export default Track;

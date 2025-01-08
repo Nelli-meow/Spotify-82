@@ -1,8 +1,8 @@
 import express from "express";
 import mongoose from "mongoose";
-import ArtistRouter from "./routers/Artist";
-import AlbumsRouter from "./routers/Album";
-import TracksRouter from "./routers/Track";
+import ArtistRouter from "./routers/Artists";
+import AlbumsRouter from "./routers/Albums";
+import TracksRouter from "./routers/Tracks";
 
 const app = express();
 const port =  8000;

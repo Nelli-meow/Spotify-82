@@ -1,5 +1,5 @@
 import express from "express";
-import Tracks from "../models/Tracks";
+import Track from "../models/Track";
 
 
 const TracksRouter = express.Router();
@@ -12,7 +12,7 @@ const getRandomDuration = async () => {
 
 TracksRouter.get("/", async (req, res) => {
     try {
-        const tracks = await Tracks.find().populate({
+        const tracks = await Track.find().populate({
             path: "album",
             populate: {
                 path: "artist",
@@ -44,7 +44,7 @@ TracksRouter.post("/", async (req, res) => {
             duration: SongDuration,
         }
 
-        const track = new Tracks(newTrack);
+        const track = new Track(newTrack);
         await track.save();
 
 
