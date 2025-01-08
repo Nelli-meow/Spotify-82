@@ -22,8 +22,7 @@ TracksRouter.get("/", async (req, res) => {
 
         res.status(200).send(tracks);
     } catch (error) {
-        console.log(error);
-        res.status(500).send("Internal Server Error");
+        res.status(500).send({error: 'something went wrong'});
     }
 });
 
@@ -52,7 +51,7 @@ TracksRouter.post("/", async (req, res) => {
 
         res.status(200).send(track);
     } catch (error) {
-        console.log(error);
+        res.status(500).send({error: 'something went wrong'});
     }
 });
 
