@@ -6,11 +6,13 @@ import TracksRouter from "./routers/Tracks";
 import UsersRouter from "./routers/Users";
 import TracksHistoryRouter from "./routers/TracksHistory";
 import config from "./config";
+import cors from 'cors';
 
 const app = express();
 const port =  8000;
 
 app.use(express.json());
+app.use(cors());
 app.use('/artists', ArtistRouter);
 app.use('/albums', AlbumsRouter);
 app.use('/tracks', TracksRouter);
