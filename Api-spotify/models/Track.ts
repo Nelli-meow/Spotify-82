@@ -8,7 +8,7 @@ const TrackSchema = new Schema({
         required: true,
     },
     album: {
-        type: String,
+        type: Schema.Types.ObjectId,
         required: true,
         ref: "Album",
     },

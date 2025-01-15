@@ -46,8 +46,8 @@ TracksRouter.post("/", async (req, res) => {
         }
 
         const track = new Track(newTrack);
-        await track.save();
 
+        await track.save();
 
         res.status(200).send(track);
     } catch (error) {
