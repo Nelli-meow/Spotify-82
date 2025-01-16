@@ -9,7 +9,6 @@ ArtistRouter.get("/", async (req, res) => {
     try {
         const artist = await Artist.find();
 
-        console.log(artist);
         res.status(200).send(artist);
     } catch (error) {
         console.log(error);
@@ -35,7 +34,6 @@ ArtistRouter.post("/", imagesUpload.single('image'), async (req, res) => {
         const artist = new Artist(newArtist);
         await artist.save();
 
-        console.log(artist);
 
         res.status(200).send(artist);
     } catch (error) {

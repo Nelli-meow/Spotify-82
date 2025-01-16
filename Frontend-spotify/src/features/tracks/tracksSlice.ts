@@ -7,15 +7,18 @@ interface ITracksState {
   Tracks: ITracks[];
   fetchTracks: boolean;
   fetchTracksById: boolean;
+  isLoading: boolean;
 }
 
 const initialState: ITracksState = {
   Tracks: [],
   fetchTracks: false,
   fetchTracksById: false,
+  isLoading: false,
 }
 
 export const selectTracks  = (state: RootState) => state.tracks.Tracks;
+export const selectIsLoading = (state: RootState) => state.tracks.isLoading;
 
 const tracksSlice = createSlice({
   name: 'tracks',

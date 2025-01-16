@@ -3,13 +3,15 @@ import { fetchTracksByIdThunk } from './tracksThunk.ts';
 import TracksItem from '../../components/TracksItem/TracksItem.tsx';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { selectTracks } from './tracksSlice.ts';
+import { selectIsLoading, selectTracks } from './tracksSlice.ts';
 import Header from '../../components/Header/Header.tsx';
+import PreLoader from '../../components/UI/PreLoader.tsx';
 
 
 const Tracks = () => {
   const dispatch = useAppDispatch();
   const tracks = useAppSelector(selectTracks);
+  const isLoading = useAppSelector(selectIsLoading);
   const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
@@ -24,7 +26,9 @@ const Tracks = () => {
       <Header />
       <h3 className="text-center">Tracks</h3>
       <div className="container">
-        {tracks.length === 0 ? (
+        {isLoading ? (
+          <PreLoader />
+        ) : tracks.length === 0 ? (
           <p className="text-center">No tracks :(</p>
         ) : (
           <div className="row">

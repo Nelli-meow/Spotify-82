@@ -7,14 +7,17 @@ import { RootState } from '../../app/store.ts';
 interface IArtistsState {
   Artists: IArtists[];
   fetchArtists: boolean;
+  isLoading: boolean,
 }
 
 const initialState: IArtistsState = {
   Artists: [],
   fetchArtists: false,
+  isLoading: false,
 }
 
 export const selectArtists  = (state: RootState) => state.artists.Artists;
+export const selectIsLoading = (state: RootState) => state.artists.isLoading;
 
 export const artistsSlice = createSlice({
   name: 'artists',

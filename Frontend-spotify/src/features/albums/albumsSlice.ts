@@ -9,6 +9,7 @@ interface IAlbumsState {
   Artist: string;
   fetchAlbums: boolean;
   fetchAlbumsById: boolean;
+  isLoading: boolean,
 }
 
 const initialState: IAlbumsState = {
@@ -16,10 +17,12 @@ const initialState: IAlbumsState = {
   Artist: '',
   fetchAlbums: false,
   fetchAlbumsById: false,
+  isLoading: false,
 }
 
 export const selectAlbums  = (state: RootState) => state.albums.Albums;
 export const selectArtist = (state: RootState) => state.albums.Artist;
+export const selectIsLoading = (state: RootState) => state.albums.isLoading;
 
 export const albumsSlice = createSlice({
   name: 'albums',
