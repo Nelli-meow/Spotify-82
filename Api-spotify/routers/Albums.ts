@@ -20,7 +20,9 @@ AlbumsRouter.get("/:id", async (req, res) => {
         const { id } = req.params;
 
 
-        const albums = await Album.find({ artist: id }).populate("artist");
+        const albums = await Album.find({ artist: id })
+            .populate("artist")
+            .sort({ year: -1 });
 
         if (!albums) {
             res.status(404).send("Album not found");

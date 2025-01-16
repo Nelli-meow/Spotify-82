@@ -9,6 +9,7 @@ const ArtistSchema = new Schema({
     },
     photo: {
         type: String,
+        default: null,
     },
     information: {
         type: String,

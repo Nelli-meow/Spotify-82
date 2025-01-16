@@ -26,6 +26,32 @@ TracksRouter.get("/", async (req, res) => {
     }
 });
 
+TracksRouter.get("/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const tracks = await Track.find({ album: id })
+            .sort({ number: 1 })
+            .populate({
+                path: "album",
+                populate: {
+                    path: "artist",
+                    model: "Artist",
+                },
+            });
+
+        if (!tracks) {
+            res.status(404).send({ message: "Tracks not found" });
+            return;
+        }
+
+        res.status(200).send(tracks);
+    } catch (error) {
+        res.status(500).send({ error: "Something went wrong" });
+    }
+});
+
+
 
 TracksRouter.post("/", async (req, res) => {
     try {

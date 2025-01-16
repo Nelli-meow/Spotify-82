@@ -10,10 +10,9 @@ interface ArtistProps {
 const ArtistItem: React.FC<ArtistProps> = ({name, photo}) => {
   const imageSrc = photo ? `${apiURL}/${photo}` : NoPic;
 
-
   return (
     <>
-      <div className="col">
+      <div className="col h-100 d-flex">
         <div className="card">
           <img src={imageSrc} className="card-img-top" alt={name}/>
           <div className="card-body">

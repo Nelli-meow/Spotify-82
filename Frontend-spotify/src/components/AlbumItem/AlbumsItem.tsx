@@ -14,7 +14,7 @@ const AlbumItem: React.FC<AlbumsProps> = ({name, photo, year, num}) => {
 
   return (
     <>
-      <div className="col mb-5">
+      <div className="col mb-5 h-100 d-flex">
         <div className="card">
           <img src={imageSrc} className="card-img-top" alt={name}/>
           <div className="card-body d-flex flex-column justify-content-between">

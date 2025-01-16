@@ -12,3 +12,11 @@ export interface IAlbums {
   year: string;
   _id: string;
 }
+
+export interface ITracks {
+  name: string;
+  duration: string;
+  number: string;
+  year: string;
+  _id: string;
+}

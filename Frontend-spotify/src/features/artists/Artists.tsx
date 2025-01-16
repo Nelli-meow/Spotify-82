@@ -16,15 +16,19 @@ const Artists = () => {
   return (
     <>
       <h3 className="text-center">Artists</h3>
-      <div className="row row-cols-1 row-cols-md-3 g-4">
-        {artists.map((artist) => (
-          <div key={artist._id}>
-            <Link to={`/albums/${artist._id}`} className="text-decoration-none">
-              <ArtistItem name={artist.name} photo={artist.photo}/>
-            </Link>
-          </div>
-        ))}
-      </div>
+      {artists.length === 0 ? (
+        <p className="text-center">No artists :(</p>
+      ) : (
+        <div className="row row-cols-1 row-cols-md-3 g-4">
+          {artists.map((artist) => (
+            <div key={artist._id}>
+              <Link to={`/albums/${artist._id}`} className="text-decoration-none">
+                <ArtistItem name={artist.name} photo={artist.photo} />
+              </Link>
+            </div>
+          ))}
+        </div>
+      )}
     </>
   );
 };

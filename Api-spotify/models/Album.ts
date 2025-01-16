@@ -14,9 +14,10 @@ const AlbumSchema = new Schema({
     },
     photo: {
         type: String,
+        default: null,
     },
     year: {
-        type: Number,
+        type: Date,
         required: true,
     }
 });
