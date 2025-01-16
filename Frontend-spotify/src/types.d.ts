@@ -4,3 +4,11 @@ export interface IArtists {
   information: string;
   _id: string;
 }
+
+export interface IAlbums {
+  name: string;
+  photo: string;
+  number: string;
+  year: string;
+  _id: string;
+}

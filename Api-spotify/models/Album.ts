@@ -18,7 +18,6 @@ const AlbumSchema = new Schema({
     year: {
         type: Number,
         required: true,
-        format: 'YYYY-MM-DD',
     }
 });
 

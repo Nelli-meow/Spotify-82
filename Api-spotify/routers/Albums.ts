@@ -2,6 +2,7 @@ import express from "express";
 import {imagesUpload} from "../multer";
 import {AlbumMutation} from "../types";
 import Album from "../models/Album";
+import {debuglog} from "node:util";
 
 const AlbumsRouter = express.Router();
 
@@ -18,14 +19,20 @@ AlbumsRouter.get("/:id", async (req, res) => {
     try {
         const { id } = req.params;
 
-        const album = await Album.findById(id).populate("artist");
+
+        const albums = await Album.find({ artist: id }).populate("artist");
+
+        if (!albums) {
+            res.status(404).send("Album not found");
+            return;
+        }
 
         if (!id) {
             res.status(404).send("Not Found");
             return;
         }
 
-        res.status(200).send(album);
+        res.status(200).send(albums);
     } catch (error) {
         console.log(error);
     }

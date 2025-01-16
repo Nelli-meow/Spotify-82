@@ -10,3 +10,5 @@ export const fetchArtistsThunk = createAsyncThunk<IArtists[], void>(
     return artistsResponse.data || [];
   }
 );
+
+
