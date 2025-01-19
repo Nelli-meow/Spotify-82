@@ -13,7 +13,7 @@ UsersRouter.get('/', async (req, res) => {
     }
 });
 
-UsersRouter.post('/', async (req, res) => {
+UsersRouter.post('/register', async (req, res) => {
 
     try {
         const user = new User({
@@ -24,7 +24,7 @@ UsersRouter.post('/', async (req, res) => {
         user.generateToken();
 
         await user.save();
-        res.send(user);
+        res.status(200).send({user, message: 'Successfully registered'});
     } catch (error) {
         if (error instanceof Error.ValidationError) {
             res.status(400).send(error);
