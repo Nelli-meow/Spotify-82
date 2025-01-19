@@ -3,9 +3,9 @@ import * as React from 'react';
 import Header from '../../components/Header/Header.tsx';
 import { RegisterMutation } from '../../types';
 import { useAppDispatch, useAppSelector } from '../../app/hooks.ts';
-import { selectRegisterError } from './UsersSlice.ts';
+import { selectLoginError } from './UsersSlice.ts';
 import { Link, useNavigate } from 'react-router-dom';
-import { register } from './usersThunk.ts';
+import { login } from './usersThunk.ts';
 
 
 const initialState = {
@@ -16,7 +16,7 @@ const initialState = {
 const RegisterPage = () => {
   const [form, setForm] = useState<RegisterMutation>({...initialState});
   const dispatch = useAppDispatch();
-  const registerError = useAppSelector(selectRegisterError);
+  const loginError = useAppSelector(selectLoginError);
   const navigate = useNavigate();
 
   const inputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,23 +28,10 @@ const RegisterPage = () => {
   const onSubmit =  async  (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(form);
-
-    try {
-      await dispatch(register(form)).unwrap();
-      navigate('/');
-      setForm(initialState);
-    } catch (e) {
-      console.log(e);
-    }
+    await dispatch(login(form)).unwrap();
+    navigate('/');
+    setForm(initialState);
   };
-
-  const getFiledError = (fieldName: string) => {
-    try {
-      return registerError?.errors[fieldName].message;
-    } catch (e) {
-      return undefined;
-    }
-  }
 
   return (
     <>
@@ -52,7 +39,13 @@ const RegisterPage = () => {
       <div className="container">
         <form onSubmit={onSubmit}>
           <div className="d-flex flex-column align-items-center">
-            <h3 className="my-5">Sign Up</h3>
+            <h3 className="my-5">Sign in</h3>
+
+            {loginError && (
+              <div className="alert alert-danger" role="alert">
+                {loginError.error}
+              </div>
+            )}
             <div className="form-group">
               <label htmlFor="username">Username</label>
               <input
@@ -61,12 +54,9 @@ const RegisterPage = () => {
                 value={form.username}
                 onChange={inputChange}
                 type="text"
-                className={`form-control ${getFiledError('username') ? 'is-invalid' : ''}`}
+                className='form-control'
                 placeholder="Enter Username"
               />
-              {getFiledError('username') && (
-                <div className="invalid-feedback">{getFiledError('username')}</div>
-              )}
             </div>
             <div className="form-group">
               <label htmlFor="password">Password</label>
@@ -76,17 +66,14 @@ const RegisterPage = () => {
                 value={form.password}
                 onChange={inputChange}
                 type="password"
-                className={`form-control ${getFiledError('password') ? 'is-invalid' : ''}`}
-                placeholder="Password"
+                className='form-control'
+                placeholder="Enter Username"
               />
-              {getFiledError('password') && (
-                <div className="invalid-feedback">{getFiledError('password')}</div>
-              )}
             </div>
             <button type="submit" className="btn btn-primary mt-2">
               Submit
             </button>
-            <Link to="/login" className="mt-3">Already have an account? Sign in</Link>
+            <Link to="/register" className="mt-3">Don't have an account?? Sign up</Link>
           </div>
         </form>
       </div>

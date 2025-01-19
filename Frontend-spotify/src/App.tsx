@@ -3,6 +3,7 @@ import {Route, Routes} from "react-router-dom";
 import Albums from './features/albums/Albums.tsx';
 import Tracks from './features/tracks/Tracks.tsx';
 import RegisterPage from './features/users/RegisterPage.tsx';
+import LoginPage from './features/users/LoginPage.tsx';
 
 const App = () => {
 
@@ -11,6 +12,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<MainPage/>} />
           <Route path="/register" element={<RegisterPage/>} />
+          <Route path="/login" element={<LoginPage/>} />
           <Route path="/albums/:id" element={<Albums/>} />
           <Route path="/tracks/:id" element={<Tracks/>} />
           <Route path="*" element={<p>Page is not  found</p>} />
