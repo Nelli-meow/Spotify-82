@@ -1,6 +1,7 @@
 import express from 'express';
 import User from '../models/User';
 import {Error} from 'mongoose';
+import auth, {RequestWithUser} from "../middleware/auth";
 
 const UsersRouter = express.Router();
 
@@ -33,7 +34,7 @@ UsersRouter.post('/register', async (req, res) => {
     }
 });
 
-UsersRouter.post('/login', async (req, res) => {
+UsersRouter.post('/sessions', async (req, res) => {
     try {
         const user = await User.findOne({
             username: req.body.username,
@@ -62,6 +63,27 @@ UsersRouter.post('/login', async (req, res) => {
             return;
         }
     }
+});
+
+UsersRouter.delete('/sessions', auth,  async (req, res) => {
+   let reqWithAuth = req as RequestWithUser;
+   const userFromAuth =  reqWithAuth.user;
+
+   try {
+       const user = await User.findOne({
+           _id: userFromAuth._id,
+       });
+
+       if(user) {
+           user.generateToken();
+           await user.save();
+
+           res.send({message: 'Success logout'});
+       }
+   } catch (e) {
+       res.status(400).send({error: 'An error occurred'});
+   }
+
 });
 
 export default UsersRouter;
