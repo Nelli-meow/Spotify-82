@@ -22,7 +22,6 @@ const Header = () => {
               <AnonymousMenu/>
             </>
           }
-
         </div>
       </div>
     </header>

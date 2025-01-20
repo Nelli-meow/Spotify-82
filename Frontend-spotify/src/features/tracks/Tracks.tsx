@@ -34,7 +34,7 @@ const Tracks = () => {
           <div className="row">
             {tracks.map((track) => (
               <div key={track._id}>
-                <TracksItem name={track.name} duration={track.duration} number={track.number} />
+                <TracksItem name={track.name} duration={track.duration} number={track.number} _id={track._id} />
               </div>
             ))}
           </div>

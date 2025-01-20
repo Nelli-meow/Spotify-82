@@ -1,30 +1,19 @@
 import express from "express";
-import User from "../models/User";
 import TrackHistory from "../models/TrackHistory";
 import Track from "../models/Track";
+import auth, {RequestWithUser} from "../middleware/auth";
 
 const TracksHistoryRouter = express.Router();
 
-TracksHistoryRouter.post("/", async (req, res) => {
+TracksHistoryRouter.post("/", auth,  async (req, res) => {
     try {
-        const token = req.get("Authorization");
-        if (!token) {
-            res.status(401).send({ error: "Unauthorized: Token is missing" });
-            return;
-        }
-
-        const user = await User.findOne({ token });
-        if (!user) {
-             res.status(401).send({ error: "Unauthorized: Invalid token" });
-            return;
-        }
+        const user = (req as RequestWithUser).user;
 
         const { trackId } = req.body;
         if (!trackId) {
              res.status(400).send({ error: "Track ID is missing" });
             return;
         }
-
 
         const track = await Track.findById(trackId);
         if (!track) {
@@ -44,5 +33,6 @@ TracksHistoryRouter.post("/", async (req, res) => {
         res.status(500).send({error: 'An error occurred'});
     }
 });
+
 
 export default TracksHistoryRouter;

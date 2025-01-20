@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useAppDispatch } from '../../app/hooks.ts';
 import { unsetUser } from '../../features/users/UsersSlice.ts';
 import { logout } from '../../features/users/usersThunk.ts';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
   user: IUser;
@@ -12,6 +13,7 @@ interface Props {
 const UserMenu: React.FC<Props> = ({user}) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(e.currentTarget);
@@ -24,7 +26,13 @@ const UserMenu: React.FC<Props> = ({user}) => {
   const handleLogout = () => {
     dispatch(logout());
     dispatch(unsetUser());
+    navigate('/');
   }
+
+  const handleTracksHistory = () => {
+    navigate('/tracks-history');
+    handleClose();
+  };
 
   return user && (
     <>
@@ -39,10 +47,7 @@ const UserMenu: React.FC<Props> = ({user}) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem>Tracks list</MenuItem>
-        <MenuItem>Albums</MenuItem>
-        <MenuItem>Artists</MenuItem>
-        <MenuItem>Tracks history</MenuItem>
+        <MenuItem onClick={handleTracksHistory}>Tracks history</MenuItem>
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
     </>

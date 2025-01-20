@@ -57,3 +57,16 @@ export interface ValidationError {
 export interface GlobalError {
   error: string;
 }
+
+export interface TracksHistory {
+  userId: string;
+  trackId: string;
+}
+
+export interface TracksHistoryMutation {
+  _id: string;
+  name: string;
+  duration: string;
+  artist: string;
+  datetime: string;
+}
