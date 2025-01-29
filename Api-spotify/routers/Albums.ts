@@ -19,12 +19,12 @@ AlbumsRouter.get("/", async (req, res) => {
 
 AlbumsRouter.get("/:id", async (req, res) => {
     try {
-        const { id } = req.params;
+        const {id} = req.params;
 
 
-        const albums = await Album.find({ artist: id })
+        const albums = await Album.find({artist: id})
             .populate("artist")
-            .sort({ year: -1 });
+            .sort({year: -1});
 
         if (!albums) {
             res.status(404).send("Album not found");
@@ -42,12 +42,12 @@ AlbumsRouter.get("/:id", async (req, res) => {
     }
 });
 
-AlbumsRouter.post("/", imagesUpload.single('image') , auth, permit('user', 'admin'),  async (req, res) => {
+AlbumsRouter.post("/", imagesUpload.single('image'), auth, permit('user', 'admin'), async (req, res) => {
     try {
 
-        const { artist, year } = req.body;
+        const {artist, year} = req.body;
 
-        if(!artist || !year) {
+        if (!artist || !year) {
             res.status(400).send('artist is required');
             return;
         }
@@ -72,21 +72,41 @@ AlbumsRouter.post("/", imagesUpload.single('image') , auth, permit('user', 'admi
 });
 
 AlbumsRouter.delete("/:id", auth, permit('admin'), async (req, res) => {
-   try { const {id} = req.params;
+    try {
+        const {id} = req.params;
 
-       const album = await Album.findById(id);
-       if (!album) {
-           res.status(404).send({message: "album not found"});
-           return;
-       }
+        const album = await Album.findById(id);
+        if (!album) {
+            res.status(404).send({message: "album not found"});
+            return;
+        }
 
-       await Album.findByIdAndDelete(id);
+        await Album.findByIdAndDelete(id);
 
-       res.status(200).send({message: "album deleted successfully"});
+        res.status(200).send({message: "album deleted successfully"});
 
-   } catch (error) {
-       res.status(500).send({error: "Something went wrong"});
-   }
+    } catch (error) {
+        res.status(500).send({error: "Something went wrong"});
+    }
+});
+
+AlbumsRouter.patch("/:id/togglePublished", auth, permit('admin'), async (req, res) => {
+    try {
+        const {id} = req.params;
+
+        const album = await Album.findById(id);
+        if (!album) {
+            res.status(404).send({error: "Album not found"});
+            return;
+        }
+
+        album.isPublished = !album.isPublished;
+        await album.save();
+
+        res.status(200).send({message: "Album publication status updated", album});
+    } catch (error) {
+        res.status(404).send({error: "something went wrong"});
+    }
 });
 
 export default AlbumsRouter;

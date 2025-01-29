@@ -11,6 +11,14 @@ export interface AlbumMutation {
     photo: string | null;
 }
 
+export interface TrackMutation {
+    name: string;
+    album: string;
+    duration: string;
+    number: string;
+    isPublished: boolean;
+}
+
 export interface UserFields {
     username: string;
     password: string;
