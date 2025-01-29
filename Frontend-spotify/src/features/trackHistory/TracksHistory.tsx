@@ -1,16 +1,14 @@
 import { useAppDispatch, useAppSelector } from '../../app/hooks.ts';
-import {  selectTracksHistory } from './TrackHistorySlice.ts';
-
-import Header from '../../components/Header/Header.tsx';
+import { selectTracksHistory } from './TrackHistorySlice.ts';
 import TracksHistoryItem from '../../components/TracksHistoryItem/TracksHistoryItem.tsx';
 import { useEffect } from 'react';
 import { addTrackToHistory } from './TracksHistoryThunks.ts';
-
 
 const TrackHistory = () => {
   const tracksHistory = useAppSelector(selectTracksHistory);
   const dispatch = useAppDispatch();
   const token = localStorage.getItem('token');
+
 
   useEffect(() => {
     if(token) {
@@ -20,7 +18,6 @@ const TrackHistory = () => {
 
   return (
     <>
-      <Header/>
       <div className="container">
         <h2 className="text-center">Tracks history</h2>
         {tracksHistory.length > 0 ? (

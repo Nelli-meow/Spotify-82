@@ -2,7 +2,6 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks.ts';
 import { selectAlbums, selectArtist } from './albumsSlice.ts';
 import { useEffect } from 'react';
 import AlbumItem from '../../components/AlbumItem/AlbumsItem.tsx';
-import Header from '../../components/Header/Header.tsx';
 import { fetchAlbumsByIdThunk } from './albumsThunk.ts';
 import { Link, useParams } from 'react-router-dom';
 import { selectIsLoading } from '../tracks/tracksSlice.ts';
@@ -24,7 +23,6 @@ const Albums = () => {
 
   return (
     <>
-      <Header />
       <div className="container">
         <h3 className="text-center">Albums</h3>
         {artist && <h4 className="text-center">Artist - {artist}</h4>}

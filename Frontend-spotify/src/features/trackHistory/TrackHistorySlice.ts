@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { addTrackToHistory } from './TracksHistoryThunks.ts';
 import { RootState } from '../../app/store.ts';
-import { TracksHistoryMutation } from '../../types';
+import {  TracksHistoryMutation } from '../../types';
 
 export interface TrackHistoryState {
   tracksHistory: TracksHistoryMutation[];

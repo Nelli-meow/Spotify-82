@@ -4,7 +4,6 @@ import TracksItem from '../../components/TracksItem/TracksItem.tsx';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { selectIsLoading, selectTracks } from './tracksSlice.ts';
-import Header from '../../components/Header/Header.tsx';
 import PreLoader from '../../components/UI/PreLoader.tsx';
 
 
@@ -18,12 +17,10 @@ const Tracks = () => {
     if(id) {
       dispatch(fetchTracksByIdThunk(id));
     }
-  },[dispatch]);
-
+  },[dispatch, id]);
 
   return (
     <>
-      <Header />
       <h3 className="text-center">Tracks</h3>
       <div className="container">
         {isLoading ? (

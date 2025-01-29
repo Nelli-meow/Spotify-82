@@ -14,7 +14,7 @@ const Artists = () => {
 
   useEffect(() => {
     dispatch(fetchArtistsThunk());
-  }, []);
+  }, [dispatch]);
 
   return (
     <>

@@ -2,6 +2,8 @@ import express from "express";
 import {imagesUpload} from "../multer";
 import {AlbumMutation} from "../types";
 import Album from "../models/Album";
+import auth from "../middleware/auth";
+import permit from "../middleware/permit";
 
 
 const AlbumsRouter = express.Router();
@@ -40,7 +42,7 @@ AlbumsRouter.get("/:id", async (req, res) => {
     }
 });
 
-AlbumsRouter.post("/", imagesUpload.single('image') , async (req, res) => {
+AlbumsRouter.post("/", imagesUpload.single('image') , auth, permit('user', 'admin'),  async (req, res) => {
     try {
 
         const { artist, year } = req.body;

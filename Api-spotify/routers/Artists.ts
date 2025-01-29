@@ -2,6 +2,8 @@ import express from "express";
 import Artist from "../models/Artist";
 import {imagesUpload} from "../multer";
 import {ArtistMutation} from "../types";
+import auth from "../middleware/auth";
+import permit from "../middleware/permit";
 
 const ArtistRouter = express.Router();
 
@@ -15,7 +17,7 @@ ArtistRouter.get("/", async (req, res) => {
     }
 });
 
-ArtistRouter.post("/", imagesUpload.single('image'), async (req, res) => {
+ArtistRouter.post("/", imagesUpload.single('image'), auth , permit('user', 'admin'), async (req, res) => {
     try {
 
         const { name } = req.body;

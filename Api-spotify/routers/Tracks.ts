@@ -1,5 +1,7 @@
 import express from "express";
 import Track from "../models/Track";
+import auth from "../middleware/auth";
+import permit from "../middleware/permit";
 
 
 const TracksRouter = express.Router();
@@ -53,7 +55,7 @@ TracksRouter.get("/:id", async (req, res) => {
 
 
 
-TracksRouter.post("/", async (req, res) => {
+TracksRouter.post("/" , auth, permit('user', 'admin'), async (req, res) => {
     try {
 
         const { name, album } = req.body;

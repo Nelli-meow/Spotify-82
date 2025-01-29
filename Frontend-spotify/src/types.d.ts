@@ -58,15 +58,17 @@ export interface GlobalError {
   error: string;
 }
 
-export interface TracksHistory {
-  userId: string;
-  trackId: string;
-}
-
 export interface TracksHistoryMutation {
   _id: string;
   name: string;
   duration: string;
   artist: string;
+  datetime: string;
+}
+
+export interface TracksHistoryData {
+  _id: string;
+  userId: string;
+  trackId: string;
   datetime: string;
 }

@@ -12,7 +12,7 @@ const usersPersisConfig = {
   key: 'store:users',
   storage,
   whitelist: ['user']
-}
+};
 
 const rootReducer = combineReducers({
   artists: artistsReducer,

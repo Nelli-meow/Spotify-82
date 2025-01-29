@@ -18,7 +18,7 @@ const initialState: IAlbumsState = {
   fetchAlbums: false,
   fetchAlbumsById: false,
   isLoading: false,
-}
+};
 
 export const selectAlbums  = (state: RootState) => state.albums.Albums;
 export const selectArtist = (state: RootState) => state.albums.Artist;

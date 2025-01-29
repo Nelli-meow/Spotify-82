@@ -8,7 +8,6 @@ interface Props {
 }
 
 const TracksHistoryItem: React.FC<Props> = ({ datetime, duration, name, artist}) => {
-
   return (
     <>
       <div className="border border-1 rounded-md shadow-sm my-5 p-4">

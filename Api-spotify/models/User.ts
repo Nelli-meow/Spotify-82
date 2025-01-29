@@ -6,10 +6,11 @@ import {randomUUID} from "crypto";
 
 interface UserMethods {
     checkPassword(password: string): Promise<boolean>;
+
     generateToken(): void;
 }
 
-type UserModel = Model<UserFields , {}, UserMethods>
+type UserModel = Model<UserFields, {}, UserMethods>
 
 const Schema = mongoose.Schema;
 const SALT_WORK_FACTOR = 10;
@@ -25,8 +26,8 @@ const UserSchema = new Schema<
         unique: true,
         validate: {
             validator: async function (this: HydratedDocument<UserFields>, value: string): Promise<boolean> {
-                if(!this.isModified('username')) return true;
-                const user :UserFields | null = await User.findOne({username: value});
+                if (!this.isModified('username')) return true;
+                const user: UserFields | null = await User.findOne({username: value});
                 return !user;
             },
             message: "This Username already exists",
@@ -36,6 +37,12 @@ const UserSchema = new Schema<
         type: String,
         required: true,
     },
+    role: {
+        type: String,
+        required: true,
+        default: 'user',
+        enum: ["admin", "user"],
+    },
     token: {
         type: String,
         required: true,
@@ -43,7 +50,7 @@ const UserSchema = new Schema<
 });
 
 UserSchema.pre("save", async function (next) {
-    if(!this.isModified("password")) return next();
+    if (!this.isModified("password")) return next();
 
     const salt = await bcrypt.genSalt(SALT_WORK_FACTOR);
     const hash = await bcrypt.hash(this.password, salt);

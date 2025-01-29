@@ -5,11 +5,13 @@ import Tracks from './features/tracks/Tracks.tsx';
 import RegisterPage from './features/users/RegisterPage.tsx';
 import LoginPage from './features/users/LoginPage.tsx';
 import TracksHistory from './features/trackHistory/TracksHistory.tsx';
+import Header from './components/Header/Header.tsx';
 
 const App = () => {
 
   return (
     <>
+      <Header/>
         <Routes>
           <Route path="/" element={<MainPage/>} />
           <Route path="/register" element={<RegisterPage/>} />

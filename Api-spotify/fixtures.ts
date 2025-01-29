@@ -3,6 +3,8 @@ import Artist from "./models/Artist";
 import Album from "./models/Album";
 import Track from "./models/Track";
 import config from "./config";
+import User from "./models/User";
+import {randomUUID} from "crypto";
 
 
 const run = async () => {
@@ -14,6 +16,8 @@ const run = async () => {
         await db.dropCollection('albums');
         await db.dropCollection('tracks');
         await db.dropCollection('artists');
+        await db.dropCollection('users');
+        await db.dropCollection('trackhistories');
     } catch (error) {
         console.log(error);
     }
@@ -182,6 +186,21 @@ const run = async () => {
             number: 5,
         },
     ]);
+
+    await User.create(
+        {
+            username: 'Jane',
+            password: "123",
+            token: randomUUID(),
+            role: "user",
+        },
+        {
+            username: 'John',
+            password: "666",
+            token: randomUUID(),
+            role: "admin",
+        }
+    );
 
     await db.close();
 };

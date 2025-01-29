@@ -5,6 +5,26 @@ import auth, {RequestWithUser} from "../middleware/auth";
 
 const TracksHistoryRouter = express.Router();
 
+TracksHistoryRouter.get("/:userId", async (req , res) => {
+    try {
+        const { userId } = req.params;
+
+        const tracks = await TrackHistory.find({ userId: userId }).populate("trackId");
+
+        if (!tracks || tracks.length === 0) {
+            res.status(404).send({ message: "Tracks not found" });
+            return;
+        }
+
+        console.log(tracks);
+
+        res.status(200).send(tracks);
+    } catch (error) {
+        res.status(500).send({error: 'Something went wrong'});
+    }
+});
+
+
 TracksHistoryRouter.post("/", auth,  async (req, res) => {
     try {
         const user = (req as RequestWithUser).user;
@@ -21,14 +41,18 @@ TracksHistoryRouter.post("/", auth,  async (req, res) => {
             return;
         }
 
+        const tracks = await TrackHistory.find({ trackId }).populate("trackId");
         const trackHistory = new TrackHistory({
             userId: user._id,
             trackId: track._id,
         });
 
         await trackHistory.save();
+        const savedTrackHistory = await TrackHistory.findById(trackHistory._id).populate("trackId");
 
-        res.status(201).send(trackHistory);
+        console.log(savedTrackHistory);
+
+        res.status(201).send(savedTrackHistory);
     }catch (error) {
         res.status(500).send({error: 'An error occurred'});
     }

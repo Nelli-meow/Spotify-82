@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import * as React from 'react';
-import Header from '../../components/Header/Header.tsx';
 import { RegisterMutation } from '../../types';
 import { useAppDispatch, useAppSelector } from '../../app/hooks.ts';
 import { selectRegisterError } from './UsersSlice.ts';
@@ -11,7 +10,7 @@ import { register } from './usersThunk.ts';
 const initialState = {
   username: '',
   password: '',
-}
+};
 
 const RegisterPage = () => {
   const [form, setForm] = useState<RegisterMutation>({...initialState});
@@ -42,13 +41,12 @@ const RegisterPage = () => {
     try {
       return registerError?.errors[fieldName].message;
     } catch (e) {
-      return undefined;
+      return e;
     }
-  }
+  };
 
   return (
     <>
-      <Header />
       <div className="container">
         <form onSubmit={onSubmit}>
           <div className="d-flex flex-column align-items-center">
@@ -91,6 +89,7 @@ const RegisterPage = () => {
         </form>
       </div>
     </>
+
 
   );
 };

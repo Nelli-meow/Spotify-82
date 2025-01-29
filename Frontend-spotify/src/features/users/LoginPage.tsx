@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import * as React from 'react';
-import Header from '../../components/Header/Header.tsx';
 import { RegisterMutation } from '../../types';
 import { useAppDispatch, useAppSelector } from '../../app/hooks.ts';
 import { selectLoginError } from './UsersSlice.ts';
@@ -11,7 +10,7 @@ import { login } from './usersThunk.ts';
 const initialState = {
   username: '',
   password: '',
-}
+};
 
 const RegisterPage = () => {
   const [form, setForm] = useState<RegisterMutation>({...initialState});
@@ -35,7 +34,6 @@ const RegisterPage = () => {
 
   return (
     <>
-      <Header />
       <div className="container">
         <form onSubmit={onSubmit}>
           <div className="d-flex flex-column align-items-center">

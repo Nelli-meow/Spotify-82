@@ -19,6 +19,11 @@ const AlbumSchema = new Schema({
     year: {
         type: Date,
         required: true,
+    },
+    isPublished: {
+        type: Boolean,
+        required: true,
+        default: false,
     }
 });
 
