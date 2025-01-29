@@ -3,7 +3,6 @@ import Track from "../models/Track";
 import auth from "../middleware/auth";
 import permit from "../middleware/permit";
 
-
 const TracksRouter = express.Router();
 
 const getRandomDuration = async () => {
@@ -81,6 +80,23 @@ TracksRouter.post("/" , auth, permit('user', 'admin'), async (req, res) => {
     } catch (error) {
         res.status(500).send({error: 'something went wrong'});
     }
+});
+
+TracksRouter.delete("/:id", auth, permit('admin'), async (req, res) => {
+   try {
+       const {id} = req.params;
+
+       const track = await Track.findById(id);
+       if (!track) {
+           res.status(404).send({message: "track not found"});
+           return;
+       }
+
+       await Track.findByIdAndDelete(id);
+       res.status(200).send({message: "track deleted successfully"});
+   } catch(error) {
+       res.status(500).send({error: 'something went wrong'});
+   }
 });
 
 export default TracksRouter;

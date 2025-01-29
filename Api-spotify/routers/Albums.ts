@@ -71,4 +71,22 @@ AlbumsRouter.post("/", imagesUpload.single('image') , auth, permit('user', 'admi
     }
 });
 
+AlbumsRouter.delete("/:id", auth, permit('admin'), async (req, res) => {
+   try { const {id} = req.params;
+
+       const album = await Album.findById(id);
+       if (!album) {
+           res.status(404).send({message: "album not found"});
+           return;
+       }
+
+       await Album.findByIdAndDelete(id);
+
+       res.status(200).send({message: "album deleted successfully"});
+
+   } catch (error) {
+       res.status(500).send({error: "Something went wrong"});
+   }
+});
+
 export default AlbumsRouter;

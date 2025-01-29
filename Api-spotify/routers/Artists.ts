@@ -17,12 +17,12 @@ ArtistRouter.get("/", async (req, res) => {
     }
 });
 
-ArtistRouter.post("/", imagesUpload.single('image'), auth , permit('user', 'admin'), async (req, res) => {
+ArtistRouter.post("/", imagesUpload.single('image'), auth, permit('user', 'admin'), async (req, res) => {
     try {
 
-        const { name } = req.body;
+        const {name} = req.body;
 
-        if(!name) {
+        if (!name) {
             res.status(400).send('Name is required');
             return;
         }
@@ -40,6 +40,23 @@ ArtistRouter.post("/", imagesUpload.single('image'), auth , permit('user', 'admi
         res.status(200).send(artist);
     } catch (error) {
         console.log(error);
+    }
+});
+
+ArtistRouter.delete("/:id", auth, permit('admin'), async (req, res) => {
+    try {
+        const {id} = req.params;
+
+        const artist = await Artist.findById(id);
+        if (!artist) {
+            res.status(404).send({message: "Artist not found"});
+            return;
+        }
+
+        await Artist.findByIdAndDelete(id);
+        res.status(200).send({message: "Artist deleted successfully"});
+    } catch (error) {
+        res.status(500).send({message: "Something went wrong"});
     }
 });
 
