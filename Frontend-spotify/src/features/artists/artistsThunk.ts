@@ -26,8 +26,6 @@ export const addNewArtist = createAsyncThunk<void, { artist: IArtistsMutation, t
       }
     });
 
-    console.log(artist, token);
-
     await axiosApi.post('/artists', formData, { headers: { 'Authorization': token } });
   }
 );

@@ -7,7 +7,7 @@ export interface IArtists {
 
 export interface IAlbums {
   name: string;
-  photo: string;
+  image: string;
   number: string;
   year: string;
   _id: string;
@@ -75,6 +75,11 @@ export interface TracksHistoryData {
 
 export interface IArtistsMutation {
   name: string;
-  photo: string | null;
   information: string;
+}
+
+export interface IAlbumsMutation {
+  name: string;
+  artist: string;
+  image: string | null;
 }

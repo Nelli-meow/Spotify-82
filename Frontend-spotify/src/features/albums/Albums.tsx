@@ -20,14 +20,15 @@ const Albums = () => {
     }
   }, [dispatch, id]);
 
-
   return (
     <>
       <div className="container">
-        <h3 className="text-center">Albums</h3>
+        <div className="d-flex justify-content-between align-items-center mb-5">
+          <h3 className="text-center">Albums</h3>
+        </div>
         {artist && <h4 className="text-center">Artist - {artist}</h4>}
         {isLoading ? (
-          <PreLoader />
+          <PreLoader/>
         ) : albums.length > 0 ? (
           <div className="row row-cols-1 row-cols-md-3 g-4">
             {albums.map((album) => (
@@ -37,7 +38,7 @@ const Albums = () => {
                     name={album.name}
                     year={album.year}
                     num={album.number}
-                    photo={album.photo}
+                    photo={album.image}
                   />
                 </Link>
               </div>

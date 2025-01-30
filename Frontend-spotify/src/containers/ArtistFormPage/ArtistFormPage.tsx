@@ -11,7 +11,6 @@ export interface Props {
 const initialState = {
   name: '',
   information: '',
-  photo: '',
 };
 
 const ArtistFormPage: React.FC<Props> = ({onSubmit}) => {

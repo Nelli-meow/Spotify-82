@@ -4,7 +4,7 @@ import {AlbumMutation} from "../types";
 import Album from "../models/Album";
 import auth from "../middleware/auth";
 import permit from "../middleware/permit";
-
+import Artist from "../models/Artist";
 
 const AlbumsRouter = express.Router();
 
@@ -45,25 +45,30 @@ AlbumsRouter.get("/:id", async (req, res) => {
 AlbumsRouter.post("/", imagesUpload.single('image'), auth, permit('user', 'admin'), async (req, res) => {
     try {
 
-        const {artist, year} = req.body;
+        const {artist, name} = req.body;
 
-        if (!artist || !year) {
+        if (!artist) {
             res.status(400).send('artist is required');
             return;
         }
 
         const newYear = new Date().toString();
 
+        const existingArtist = await Artist.findById(artist);
+        if(!existingArtist) {
+            res.status(404).send("Artist Not Found");
+            return;
+        }
+
         const newAlbum: AlbumMutation = {
-            name: req.body.name,
-            photo: req.file ? 'images' + req.file.filename : null,
+            name: name,
+            image: req.file ? 'images' + req.file.filename : null,
             year: newYear,
-            artist: req.body.artist,
+            artist: artist,
         }
 
         const album = new Album(newAlbum);
         await album.save();
-
 
         res.status(200).send(album);
     } catch (error) {
@@ -95,6 +100,7 @@ AlbumsRouter.patch("/:id/togglePublished", auth, permit('admin'), async (req, re
         const {id} = req.params;
 
         const album = await Album.findById(id);
+
         if (!album) {
             res.status(404).send({error: "Album not found"});
             return;

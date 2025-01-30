@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { IAlbums } from '../../types';
+import { IAlbums, IAlbumsMutation } from '../../types';
 import axiosApi from '../../axiosApi.ts';
 
 export const fetchAlbumsThunk = createAsyncThunk<IAlbums[], void>(
@@ -22,3 +22,34 @@ export const fetchAlbumsByIdThunk = createAsyncThunk(
     }
   }
 );
+
+
+export const addNewAlbum = createAsyncThunk<void, { album: IAlbumsMutation, token: string }>(
+  'albums/addNewAlbum',
+  async ({ album, token }) => {
+    try {
+      const formData = new FormData();
+
+      const keys = Object.keys(album) as (keyof IAlbumsMutation)[];
+
+      keys.forEach((key) => {
+        const value = album[key];
+        if (value !== null) {
+          formData.append(key, value);
+        }
+      });
+
+      const response = await axiosApi.post('/albums', formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      return response.data;
+    } catch (error) {
+      console.error('Error while adding album:', error);
+      throw error;
+    }
+  }
+);
+

@@ -10,6 +10,8 @@ import NewArtist from './features/artists/artistContainers/NewArtist.tsx';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.tsx';
 import { useAppSelector } from './app/hooks.ts';
 import { selectUser } from './features/users/UsersSlice.ts';
+import NewAlbum from './features/albums/albumContainers/NewAlbum.tsx';
+import NewTrack from './features/tracks/trackContainers/NewTrack.tsx';
 
 const App = () => {
   const user = useAppSelector(selectUser);
@@ -27,6 +29,16 @@ const App = () => {
           <Route path="/artists/new" element={
             <ProtectedRoute isaAllowed={!!user}>
               <NewArtist/>
+            </ProtectedRoute>
+          } />
+          <Route path="/albums/new" element={
+            <ProtectedRoute isaAllowed={!!user}>
+              <NewAlbum/>
+            </ProtectedRoute>
+          } />
+          <Route path="/tracks/new" element={
+            <ProtectedRoute isaAllowed={!!user}>
+              <NewTrack/>
             </ProtectedRoute>
           } />
           <Route path="*" element={<p className="text-center">Page is not  found</p>} />

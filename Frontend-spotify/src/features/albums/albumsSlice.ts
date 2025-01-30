@@ -1,7 +1,7 @@
 import { IAlbums } from '../../types';
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store.ts';
-import { fetchAlbumsByIdThunk, fetchAlbumsThunk } from './albumsThunk.ts';
+import { addNewAlbum, fetchAlbumsByIdThunk, fetchAlbumsThunk } from './albumsThunk.ts';
 
 
 interface IAlbumsState {
@@ -51,6 +51,16 @@ export const albumsSlice = createSlice({
       })
       .addCase(fetchAlbumsByIdThunk.rejected, (state) => {
         state.fetchAlbumsById = false;
+      })
+
+      .addCase(addNewAlbum.pending, (state) => {
+        state.fetchAlbums = true;
+      })
+      .addCase(addNewAlbum.fulfilled, (state) => {
+        state.fetchAlbums = false;
+      })
+      .addCase(addNewAlbum.rejected, (state) => {
+        state.fetchAlbums = false;
       });
   }
 });

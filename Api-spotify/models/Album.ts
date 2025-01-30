@@ -12,7 +12,7 @@ const AlbumSchema = new Schema({
         required: true,
         ref: 'Artist',
     },
-    photo: {
+    image: {
         type: String,
         default: null,
     },

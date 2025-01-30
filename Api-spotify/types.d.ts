@@ -6,9 +6,9 @@ export interface ArtistMutation {
 
 export interface AlbumMutation {
     name: string;
-    artist: string;
+    artist: ObjectId;
     year: string;
-    photo: string | null;
+    image: string | null;
 }
 
 export interface TrackMutation {

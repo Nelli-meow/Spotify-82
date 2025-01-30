@@ -23,8 +23,6 @@ export const addTrackToHistory = createAsyncThunk<TracksHistoryMutation, string,
         }
       );
 
-      console.log(response.data);
-
       return response.data;
     } catch (e) {
       console.error(e);
