@@ -18,9 +18,14 @@ const Artists = () => {
 
   return (
     <>
-      <h3 className="text-center">Artists</h3>
+      <div className="d-flex justify-content-between align-items-center mb-5">
+        <h3 className="text-center">Artists</h3>
+        {
+          <Link to="/artists/new" className="h4 text-decoration-none btn btn-dark">Add new Artist</Link>
+        }
+      </div>
       {isLoading ? (
-        <PreLoader />
+        <PreLoader/>
       ) : artists.length === 0 ? (
         <p className="text-center">No artists :(</p>
       ) : (

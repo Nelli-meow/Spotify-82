@@ -17,17 +17,17 @@ const UserMenu: React.FC<Props> = ({user}) => {
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(e.currentTarget);
-  }
+  };
 
   const handleClose = () => {
     setAnchorEl(null);
-  }
+  };
 
   const handleLogout = () => {
     dispatch(logout());
     dispatch(unsetUser());
     navigate('/');
-  }
+  };
 
   const handleTracksHistory = () => {
     navigate('/tracks-history');

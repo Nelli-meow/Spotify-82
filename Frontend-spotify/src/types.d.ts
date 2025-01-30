@@ -72,3 +72,9 @@ export interface TracksHistoryData {
   trackId: string;
   datetime: string;
 }
+
+export interface IArtistsMutation {
+  name: string;
+  photo: string | null;
+  information: string;
+}

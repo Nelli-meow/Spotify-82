@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { IArtists } from '../../types';
+import { IArtists, IArtistsMutation } from '../../types';
 import axiosApi from '../../axiosApi.ts';
 
 export const fetchArtistsThunk = createAsyncThunk<IArtists[], void>(
@@ -11,4 +11,23 @@ export const fetchArtistsThunk = createAsyncThunk<IArtists[], void>(
   }
 );
 
+export const addNewArtist = createAsyncThunk<void, { artist: IArtistsMutation, token: string }>(
+  'artists/addNewArtist',
+  async ({ artist, token }) => {
+    const formData = new FormData();
 
+    const keys = Object.keys(artist) as (keyof IArtistsMutation)[];
+
+    keys.forEach((key) => {
+      const value = artist[key];
+
+      if (value !== null) {
+        formData.append(key, value);
+      }
+    });
+
+    console.log(artist, token);
+
+    await axiosApi.post('/artists', formData, { headers: { 'Authorization': token } });
+  }
+);
