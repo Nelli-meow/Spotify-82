@@ -34,18 +34,13 @@ export const addNewAlbum = createAsyncThunk<void, { album: IAlbumsMutation, toke
 
       keys.forEach((key) => {
         const value = album[key];
+
         if (value !== null) {
           formData.append(key, value);
         }
       });
 
-      const response = await axiosApi.post('/albums', formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      return response.data;
+      await axiosApi.post('/albums', formData, { headers: { 'Authorization': token } });
     } catch (error) {
       console.error('Error while adding album:', error);
       throw error;

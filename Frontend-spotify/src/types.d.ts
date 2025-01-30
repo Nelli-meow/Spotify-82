@@ -83,3 +83,8 @@ export interface IAlbumsMutation {
   artist: string;
   image: string | null;
 }
+
+export interface ITrackMutation {
+  name: string;
+  album: string;
+}

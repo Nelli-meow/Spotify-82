@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { selectIsLoading, selectTracks } from './tracksSlice.ts';
 import PreLoader from '../../components/UI/PreLoader.tsx';
+import { fetchAlbumsThunk } from '../albums/albumsThunk.ts';
 
 
 const Tracks = () => {
@@ -16,6 +17,7 @@ const Tracks = () => {
   useEffect(() => {
     if(id) {
       dispatch(fetchTracksByIdThunk(id));
+      dispatch(fetchAlbumsThunk());
     }
   },[dispatch, id]);
 

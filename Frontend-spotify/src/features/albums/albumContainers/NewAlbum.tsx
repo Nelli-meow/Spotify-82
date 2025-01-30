@@ -3,17 +3,18 @@ import { selectUser } from '../../users/UsersSlice.ts';
 import { IAlbumsMutation } from '../../../types';
 import AlbumFormPage from '../../../containers/AlbumFormPage/AlbumFormPage.tsx';
 import { addNewAlbum } from '../albumsThunk.ts';
+import { useNavigate } from 'react-router-dom';
 
 
 const NewAlbum = () => {
   const dispatch = useAppDispatch();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const user = useAppSelector(selectUser);
 
   const onSubmit = async (album: IAlbumsMutation) => {
     if (user) {
       await dispatch(addNewAlbum({ album, token: user.token}));
-      // navigate('/');
+      navigate('/');
     }
   };
 

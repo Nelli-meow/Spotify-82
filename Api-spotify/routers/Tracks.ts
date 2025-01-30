@@ -2,6 +2,8 @@ import express from "express";
 import Track from "../models/Track";
 import auth from "../middleware/auth";
 import permit from "../middleware/permit";
+import {TrackMutation} from "../types";
+import Album from "../models/Album";
 
 const TracksRouter = express.Router();
 
@@ -57,25 +59,31 @@ TracksRouter.get("/:id", async (req, res) => {
 TracksRouter.post("/" , auth, permit('user', 'admin'), async (req, res) => {
     try {
 
-        const { name, album } = req.body;
+        const { name, album} = req.body;
 
-        if(!name) {
-            res.status(400).send('name is required');
+        if(!album || !name) {
+            res.status(400).send('album, name are required');
             return;
         }
 
         const SongDuration = await getRandomDuration();
 
-        const newTrack = {
+        const existingAlbum = await Album.findById(album);
+        if(!existingAlbum) {
+            res.status(404).send("album Not Found");
+            return;
+        }
+
+        const newTrack : TrackMutation = {
             name: name,
             album: album,
             duration: SongDuration,
         }
 
         const track = new Track(newTrack);
-
         await track.save();
 
+        console.log(track)
         res.status(200).send(track);
     } catch (error) {
         res.status(500).send({error: 'something went wrong'});

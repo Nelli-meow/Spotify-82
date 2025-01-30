@@ -67,6 +67,7 @@ AlbumsRouter.post("/", imagesUpload.single('image'), auth, permit('user', 'admin
             artist: artist,
         }
 
+
         const album = new Album(newAlbum);
         await album.save();
 
