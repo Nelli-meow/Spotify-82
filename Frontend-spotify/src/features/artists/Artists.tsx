@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from '../../app/hooks.ts';
 import { useEffect } from 'react';
-import { fetchArtistsThunk } from './artistsThunk.ts';
+import { deleteArtist, fetchArtistsThunk } from './artistsThunk.ts';
 import { selectArtists, selectIsLoading } from './artistsSlice.ts';
 import ArtistItem from '../../components/ArtistItem/ArtistItem.tsx';
 import { Link } from 'react-router-dom';
@@ -15,6 +15,10 @@ const Artists = () => {
   useEffect(() => {
     dispatch(fetchArtistsThunk());
   }, [dispatch]);
+
+  const onDelete = (id: string) => {
+    dispatch(deleteArtist(id));
+  };
 
   return (
     <>
@@ -31,10 +35,13 @@ const Artists = () => {
       ) : (
         <div className="row row-cols-1 row-cols-md-3 g-4">
           {artists.map((artist) => (
-            <div key={artist._id}>
+            <div key={artist._id} className="mb-5">
               <Link to={`/albums/${artist._id}`} className="text-decoration-none">
-                <ArtistItem name={artist.name} photo={artist.photo} />
+                <ArtistItem name={artist.name} photo={artist.photo} _id={artist._id} />
               </Link>
+              <button className="btn btn-outline-danger" onClick={() => onDelete(artist._id)}>
+                delete artist
+              </button>
             </div>
           ))}
         </div>

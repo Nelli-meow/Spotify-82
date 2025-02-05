@@ -38,8 +38,7 @@ const ArtistFormPage: React.FC<Props> = ({onSubmit}) => {
       [name]: value,
     }));
   }, []);
-
-
+  
   const getImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const {name, files} = e.target;
 

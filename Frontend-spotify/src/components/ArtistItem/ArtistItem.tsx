@@ -5,6 +5,7 @@ import { apiURL } from '../../globalConstants.ts';
 interface ArtistProps {
   name: string;
   photo?: string | null;
+  _id: string;
 }
 
 const ArtistItem: React.FC<ArtistProps> = ({name, photo}) => {
@@ -15,7 +16,7 @@ const ArtistItem: React.FC<ArtistProps> = ({name, photo}) => {
       <div className="col h-100 d-flex">
         <div className="card">
           <img src={imageSrc} className="card-img-top" alt={name}/>
-          <div className="card-body">
+          <div className="card-body d-flex flex-column align-items-center">
             <h3 className="card-title">{name}</h3>
           </div>
         </div>
