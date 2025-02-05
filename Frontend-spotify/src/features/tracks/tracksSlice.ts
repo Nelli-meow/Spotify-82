@@ -1,5 +1,5 @@
 import { ITracks } from '../../types';
-import { addNewTrack, fetchTracksByIdThunk } from './tracksThunk.ts';
+import { addNewTrack, deleteTrack, fetchTracksByIdThunk } from './tracksThunk.ts';
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store.ts';
 
@@ -8,6 +8,7 @@ interface ITracksState {
   fetchTracks: boolean;
   fetchTracksById: boolean;
   isLoading: boolean;
+  deleteTrack: boolean;
 }
 
 const initialState: ITracksState = {
@@ -15,6 +16,7 @@ const initialState: ITracksState = {
   fetchTracks: false,
   fetchTracksById: false,
   isLoading: false,
+  deleteTrack: false,
 };
 
 export const selectTracks  = (state: RootState) => state.tracks.Tracks;
@@ -44,6 +46,17 @@ const tracksSlice = createSlice({
       })
       .addCase(addNewTrack.rejected, (state) => {
         state.isLoading = false;
+      })
+
+      .addCase(deleteTrack.pending, (state) => {
+        state.deleteTrack = true;
+      })
+      .addCase(deleteTrack.fulfilled, (state, action) => {
+        state.deleteTrack = false;
+        state.Tracks = state.Tracks.filter(track => track._id !== action.meta.arg);
+      })
+      .addCase(deleteTrack.rejected, (state) => {
+        state.deleteTrack = false;
       });
 
   }

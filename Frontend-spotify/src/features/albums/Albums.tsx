@@ -2,10 +2,11 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks.ts';
 import { selectAlbums, selectArtist } from './albumsSlice.ts';
 import { useEffect } from 'react';
 import AlbumItem from '../../components/AlbumItem/AlbumsItem.tsx';
-import { fetchAlbumsByIdThunk } from './albumsThunk.ts';
+import { deleteAlbum, fetchAlbumsByIdThunk } from './albumsThunk.ts';
 import { Link, useParams } from 'react-router-dom';
 import { selectIsLoading } from '../tracks/tracksSlice.ts';
 import PreLoader from '../../components/UI/PreLoader.tsx';
+
 
 const Albums = () => {
   const dispatch = useAppDispatch();
@@ -19,6 +20,11 @@ const Albums = () => {
       dispatch(fetchAlbumsByIdThunk(id));
     }
   }, [dispatch, id]);
+
+  const onDelete = (id: string) => {
+    dispatch(deleteAlbum(id));
+  };
+
 
   return (
     <>
@@ -41,6 +47,9 @@ const Albums = () => {
                     photo={album.image}
                   />
                 </Link>
+                <button className="btn btn-outline-danger" onClick={() => onDelete(album._id)}>
+                  delete album
+                </button>
               </div>
             ))}
           </div>

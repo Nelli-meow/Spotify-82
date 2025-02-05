@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '../../app/hooks.ts';
-import { fetchTracksByIdThunk } from './tracksThunk.ts';
+import { deleteTrack, fetchTracksByIdThunk } from './tracksThunk.ts';
 import TracksItem from '../../components/TracksItem/TracksItem.tsx';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
@@ -21,6 +21,11 @@ const Tracks = () => {
     }
   },[dispatch, id]);
 
+  const onDelete = (id: string) => {
+    dispatch(deleteTrack(id));
+  };
+
+
   return (
     <>
       <h3 className="text-center">Tracks</h3>
@@ -33,7 +38,7 @@ const Tracks = () => {
           <div className="row">
             {tracks.map((track) => (
               <div key={track._id}>
-                <TracksItem name={track.name} duration={track.duration} number={track.number} _id={track._id} />
+                <TracksItem name={track.name} duration={track.duration} number={track.number} _id={track._id} onDelete={onDelete} />
               </div>
             ))}
           </div>

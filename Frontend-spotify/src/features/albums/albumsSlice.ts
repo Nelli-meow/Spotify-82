@@ -1,8 +1,7 @@
 import { IAlbums } from '../../types';
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store.ts';
-import { addNewAlbum, fetchAlbumsByIdThunk, fetchAlbumsThunk } from './albumsThunk.ts';
-
+import { addNewAlbum, deleteAlbum, fetchAlbumsByIdThunk, fetchAlbumsThunk } from './albumsThunk.ts';
 
 interface IAlbumsState {
   Albums: IAlbums[];
@@ -10,6 +9,7 @@ interface IAlbumsState {
   fetchAlbums: boolean;
   fetchAlbumsById: boolean;
   isLoading: boolean,
+  deleteAlbum: boolean;
 }
 
 const initialState: IAlbumsState = {
@@ -18,6 +18,7 @@ const initialState: IAlbumsState = {
   fetchAlbums: false,
   fetchAlbumsById: false,
   isLoading: false,
+  deleteAlbum: false,
 };
 
 export const selectAlbums  = (state: RootState) => state.albums.Albums;
@@ -61,6 +62,17 @@ export const albumsSlice = createSlice({
       })
       .addCase(addNewAlbum.rejected, (state) => {
         state.fetchAlbums = false;
+      })
+
+      .addCase(deleteAlbum.pending, (state) => {
+        state.deleteAlbum = true;
+      })
+      .addCase(deleteAlbum.fulfilled, (state, action) => {
+        state.deleteAlbum = false;
+        state.Albums = state.Albums.filter(Album => Album._id !== action.meta.arg);
+      })
+      .addCase(deleteAlbum.rejected, (state) => {
+        state.deleteAlbum = false;
       });
   }
 });

@@ -8,9 +8,10 @@ interface TracksProps {
   duration: string;
   number: string;
   _id: string;
+  onDelete: (id: string) => void;
 }
 
-const TracksItem: React.FC<TracksProps> = ({name, number, duration, _id}) => {
+const TracksItem: React.FC<TracksProps> = ({name, number, duration, _id, onDelete}) => {
   const dispatch = useAppDispatch();
 
   const handlePlay = () => {
@@ -31,6 +32,7 @@ const TracksItem: React.FC<TracksProps> = ({name, number, duration, _id}) => {
               <Button onClick={handlePlay}>
                 Play
               </Button>
+              <Button onClick={() => onDelete(_id)} className="text-danger-emphasis">delete track</Button>
             </div>
           </div>
         </div>

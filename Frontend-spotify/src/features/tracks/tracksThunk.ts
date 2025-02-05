@@ -1,7 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axiosApi from '../../axiosApi.ts';
 import { ITrackMutation } from '../../types';
-// import { IAlbumsMutation, ITrackMutation } from '../../types';
 
 export const fetchTracksByIdThunk = createAsyncThunk(
   'tracks/fetchTracksByIdThunk',
@@ -15,20 +14,6 @@ export const fetchTracksByIdThunk = createAsyncThunk(
   }
 );
 
-// export const addNewTrack = createAsyncThunk<void, { track: ITrackMutation, token: string }>(
-//   'tracks/addNewTrack',
-//   async ({ track, token }) => {
-//     try {
-//
-//       await axiosApi.post('/tracks', track, {headers: {'Authorization': token}});
-//
-//     } catch (error) {
-//       console.error('Error while adding track:', error);
-//       throw error;
-//     }
-//   }
-// );
-
 export const addNewTrack = createAsyncThunk<void, { track: ITrackMutation, token: string }>(
   'tracks/addNewTrack',
   async ({ track, token }) => {
@@ -39,6 +24,17 @@ export const addNewTrack = createAsyncThunk<void, { track: ITrackMutation, token
     } catch (error) {
       console.error('Error while adding track:', error);
       throw error;
+    }
+  }
+);
+
+export const deleteTrack = createAsyncThunk(
+  'tracks/deleteTrack',
+  async (id: string) => {
+    try{
+      await  axiosApi.delete(`/tracks/${id}`);
+    } catch (error) {
+      return (error);
     }
   }
 );

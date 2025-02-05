@@ -50,3 +50,14 @@ export const addNewAlbum = createAsyncThunk<void, { album: IAlbumsMutation, toke
   }
 );
 
+
+export const deleteAlbum = createAsyncThunk(
+  'albums/deleteAlbum',
+  async (id: string) => {
+    try{
+      await  axiosApi.delete(`/albums/${id}`);
+    } catch (error) {
+      return (error);
+    }
+  }
+);
