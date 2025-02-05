@@ -59,14 +59,18 @@ TracksRouter.get("/:id", async (req, res) => {
 TracksRouter.post("/" , auth, permit('user', 'admin'), async (req, res) => {
     try {
 
-        const { name, album} = req.body;
+        const { name, album } = req.body;
 
         if(!album || !name) {
             res.status(400).send('album, name are required');
             return;
         }
 
+        const newYear = new Date().toString();
+
         const SongDuration = await getRandomDuration();
+
+        const trackCount = await Track.countDocuments({ album });
 
         const existingAlbum = await Album.findById(album);
         if(!existingAlbum) {
@@ -78,6 +82,8 @@ TracksRouter.post("/" , auth, permit('user', 'admin'), async (req, res) => {
             name: name,
             album: album,
             duration: SongDuration,
+            year: newYear,
+            number: trackCount + 1,
         }
 
         const track = new Track(newTrack);

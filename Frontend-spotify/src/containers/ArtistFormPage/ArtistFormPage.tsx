@@ -25,8 +25,6 @@ const ArtistFormPage: React.FC<Props> = ({onSubmit}) => {
       return;
     }
 
-    console.log(artist);
-
     onSubmit({...artist});
     setArtist(initialState);
     navigate('/');

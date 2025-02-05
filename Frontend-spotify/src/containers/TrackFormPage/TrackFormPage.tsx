@@ -12,7 +12,11 @@ export interface Props {
 const initialState = {
   name: '',
   album: '',
+  duration: '00:00',
+  number: 1,
+  year: new Date().toString(),
 };
+
 
 const TrackFormPage: React.FC<Props> = ({onSubmit}) => {
   const [track, setTrack] = useState(initialState);

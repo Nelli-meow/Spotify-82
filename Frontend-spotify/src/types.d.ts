@@ -16,7 +16,7 @@ export interface IAlbums {
 export interface ITracks {
   name: string;
   duration: string;
-  number: string;
+  number: number;
   year: string;
   _id: string;
 }
@@ -87,4 +87,7 @@ export interface IAlbumsMutation {
 export interface ITrackMutation {
   name: string;
   album: string;
+  duration: string;
+  number: number;
+  year: string;
 }

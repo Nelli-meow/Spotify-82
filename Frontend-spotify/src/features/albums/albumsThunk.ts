@@ -40,6 +40,8 @@ export const addNewAlbum = createAsyncThunk<void, { album: IAlbumsMutation, toke
         }
       });
 
+      console.log(album);
+
       await axiosApi.post('/albums', formData, { headers: { 'Authorization': token } });
     } catch (error) {
       console.error('Error while adding album:', error);
