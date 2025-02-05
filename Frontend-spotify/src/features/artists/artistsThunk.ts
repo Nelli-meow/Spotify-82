@@ -40,3 +40,16 @@ export const deleteArtist = createAsyncThunk(
     }
   }
 );
+
+export const publishArtist = createAsyncThunk(
+  'artists/publishArtist',
+  async (id: string, { rejectWithValue }) => {
+    try {
+      const response = await axiosApi.patch(`/artists/${id}/togglePublished`);
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);

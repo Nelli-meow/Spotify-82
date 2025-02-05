@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useAppDispatch } from '../../app/hooks.ts';
 import { unsetUser } from '../../features/users/UsersSlice.ts';
 import { logout } from '../../features/users/usersThunk.ts';
-import {  useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
   user: IUser;
@@ -44,6 +44,12 @@ const UserMenu: React.FC<Props> = ({user}) => {
     handleClose();
   };
 
+  const handleUnpublished = () => {
+    navigate('/unpublished');
+    handleClose();
+  };
+
+
   return user && (
     <>
       <Button
@@ -57,6 +63,9 @@ const UserMenu: React.FC<Props> = ({user}) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
+        {user && user.role === 'admin' && (
+          <MenuItem onClick={handleUnpublished}>Unpublished</MenuItem>
+        )}
         <MenuItem onClick={handleAlbums}>Add new Album</MenuItem>
         <MenuItem onClick={handleTracks}>Add new Track</MenuItem>
         <MenuItem onClick={handleTracksHistory}>Tracks history</MenuItem>

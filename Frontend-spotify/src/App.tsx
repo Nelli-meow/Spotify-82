@@ -12,6 +12,7 @@ import { useAppSelector } from './app/hooks.ts';
 import { selectUser } from './features/users/UsersSlice.ts';
 import NewAlbum from './features/albums/albumContainers/NewAlbum.tsx';
 import NewTrack from './features/tracks/trackContainers/NewTrack.tsx';
+import AdminPage from './containers/AdminPage/AdminPage.tsx';
 
 const App = () => {
   const user = useAppSelector(selectUser);
@@ -41,6 +42,12 @@ const App = () => {
               <NewTrack/>
             </ProtectedRoute>
           } />
+          <Route path="/unpublished" element={
+            <ProtectedRoute isaAllowed={user && user.role == 'admin'}>
+              <AdminPage />
+            </ProtectedRoute>
+          } />
+
           <Route path="*" element={<p className="text-center">Page is not  found</p>} />
         </Routes>
     </>

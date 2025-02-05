@@ -22,7 +22,7 @@ const run = async () => {
         console.log(error);
     }
 
-    const [oxxymiron, noize] = await Artist.create(
+    const [oxxymiron, noize, LSP] = await Artist.create(
         {
             name: 'Oxxymiron',
             photo: './fixtures/artists/scale_1200.jpeg',
@@ -33,36 +33,49 @@ const run = async () => {
             name: 'Noize',
             photo: "./fixtures/artists/Noize_MC_MRPL_City_2018.jpg",
             information: 'Noize information',
+            isPublished: 'true',
+        },
+        {
+            name: 'ЛСП',
+            photo: "./fixtures/artists/LSP_logo.jpg",
+            information: 'ЛСП information',
             isPublished: 'false',
         },
     );
 
-    const [oxyyAlbum1, oxyyAlbum2, noizeAlbum1, noizeAlbum2] = await Album.create([
+    const [oxyyAlbum1, oxyyAlbum2, noizeAlbum1, noizeAlbum2, LSPAlbum] = await Album.create([
         {
             name: "Город под подошвой",
             artist: oxxymiron._id,
-            photo: "./fixtures/albums/Cover_of_Gorgorod.jpg",
+            image: "./fixtures/albums/Cover_of_Gorgorod.jpg",
             year: 2015,
             isPublished: 'true',
         },
         {
             name: "Детектор Лжи",
             artist: oxxymiron._id,
-            photo: "./fixtures/albums/Cover_of_Gorgorod.jpg",
+            image: "./fixtures/albums/Cover_of_Gorgorod.jpg",
             year: 2012,
             isPublished: 'true',
         },
         {
             name: "Новый альбом",
             artist: noize._id,
-            photo: "./fixtures/albums/Noize_MC_-_Новый_альбом.jpg",
+            image: "./fixtures/albums/Noize_MC_-_Новый_альбом.jpg",
             year: 2012,
             isPublished: 'true',
         },
         {
             name: "Последний Альбом",
             artist: noize._id,
-            photo: "./fixtures/albums/Noize_MC_-_Новый_альбом.jpg",
+            image: "./fixtures/albums/Noize_MC_-_Новый_альбом.jpg",
+            year: 2010,
+            isPublished: 'true',
+        },
+        {
+            name: "Последний Альбом",
+            artist: LSP._id,
+            image: "./fixtures/albums/274px-Виселицца.jpg",
             year: 2010,
             isPublished: 'false',
         },
@@ -75,21 +88,21 @@ const run = async () => {
             album: oxyyAlbum1._id,
             duration: "3:15",
             number: 1,
-            isPublished: 'false',
+            isPublished: 'true',
         },
         {
             name: "Второй трек oxxxy",
             album: oxyyAlbum1._id,
             duration: "4:20",
             number: 2,
-            isPublished: 'false',
+            isPublished: 'true',
         },
         {
             name: "Третий трек oxxxy",
             album: oxyyAlbum1._id,
             duration: "2:50",
             number: 3,
-            isPublished: 'false',
+            isPublished: 'true',
         },
         {
             name: "Четвертый трек oxxxy",
@@ -125,42 +138,42 @@ const run = async () => {
             album: oxyyAlbum2._id,
             duration: "2:50",
             number: 3,
-            isPublished: 'false',
+            isPublished: 'true',
         },
         {
             name: "Четвертый трек oxxxy2",
             album: oxyyAlbum2._id,
             duration: "3:40",
             number: 4,
-            isPublished: 'false',
+            isPublished: 'true',
         },
         {
             name: "Пятый трек oxxxy2",
             album: oxyyAlbum2._id,
             duration: "3:40",
             number: 5,
-            isPublished: 'false',
+            isPublished: 'true',
         },
         {
             name: "Первый трек noize",
             album: noizeAlbum1._id,
             duration: "3:15",
             number: 1,
-            isPublished: 'false',
+            isPublished: 'true',
         },
         {
             name: "Второй трек noize",
             album: noizeAlbum1._id,
             duration: "4:20",
             number: 2,
-            isPublished: 'false',
+            isPublished: 'true',
         },
         {
             name: "Третий трек noize",
             album: noizeAlbum1._id,
             duration: "2:50",
             number: 3,
-            isPublished: 'false',
+            isPublished: 'true',
         },
         {
             name: "Четвертый трек noize",
@@ -181,21 +194,21 @@ const run = async () => {
             album: noizeAlbum2._id,
             duration: "3:15",
             number: 1,
-            isPublished: 'false',
+            isPublished: 'true',
         },
         {
             name: "Второй трек noize2",
             album: noizeAlbum2._id,
             duration: "4:20",
             number: 2,
-            isPublished: 'false',
+            isPublished: 'true',
         },
         {
             name: "Третий трек noize2",
             album: noizeAlbum2._id,
             duration: "2:50",
             number: 3,
-            isPublished: 'false',
+            isPublished: 'true',
         },
         {
             name: "Четвертый трек noize2",
@@ -210,6 +223,27 @@ const run = async () => {
             duration: "3:40",
             number: 5,
             isPublished: 'true',
+        },
+        {
+            name: "первый трек лсп",
+            album: LSPAlbum._id,
+            duration: "2:50",
+            number: 1,
+            isPublished: 'false',
+        },
+        {
+            name: "второй трек лсп",
+            album: LSPAlbum._id,
+            duration: "3:40",
+            number: 2,
+            isPublished: 'false',
+        },
+        {
+            name: "третий трек лсп",
+            album: LSPAlbum._id,
+            duration: "3:40",
+            number: 3,
+            isPublished: 'false',
         },
     ]);
 

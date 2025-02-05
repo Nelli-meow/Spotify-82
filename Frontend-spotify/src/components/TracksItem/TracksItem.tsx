@@ -7,7 +7,7 @@ import { selectUser } from '../../features/users/UsersSlice.ts';
 interface TracksProps {
   name: string;
   duration: string;
-  number: string;
+  number: number;
   _id: string;
   onDelete: (id: string) => void;
 }

@@ -1,6 +1,6 @@
 import { IArtists } from '../../types';
 import { createSlice } from '@reduxjs/toolkit';
-import { addNewArtist, deleteArtist, fetchArtistsThunk } from './artistsThunk.ts';
+import { addNewArtist, deleteArtist, fetchArtistsThunk, publishArtist } from './artistsThunk.ts';
 import { RootState } from '../../app/store.ts';
 
 
@@ -9,6 +9,7 @@ interface IArtistsState {
   fetchArtists: boolean;
   isLoading: boolean,
   deleteArtist: boolean;
+  isPublished: boolean;
 }
 
 const initialState: IArtistsState = {
@@ -16,6 +17,7 @@ const initialState: IArtistsState = {
   fetchArtists: false,
   isLoading: false,
   deleteArtist: false,
+  isPublished: false,
 };
 
 export const selectArtists  = (state: RootState) => state.artists.Artists;
@@ -57,6 +59,19 @@ export const artistsSlice = createSlice({
       })
       .addCase(deleteArtist.rejected, (state) => {
         state.deleteArtist = false;
+      })
+
+      .addCase(publishArtist.pending, (state) => {
+        state.isPublished = true;
+      })
+      .addCase(publishArtist.fulfilled, (state,{payload}) => {
+        state.isPublished = false;
+        state.Artists = state.Artists.map((artist) =>
+          artist._id === payload._id ? { ...artist, isPublished: true } : artist
+        );
+      })
+      .addCase(publishArtist.rejected, (state) => {
+        state.isPublished = false;
       });
   }
 });

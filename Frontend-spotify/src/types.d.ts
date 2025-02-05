@@ -3,6 +3,7 @@ export interface IArtists {
   photo: string | null;
   information: string;
   _id: string;
+  isPublished: boolean;
 }
 
 export interface IAlbums {

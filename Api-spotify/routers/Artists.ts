@@ -7,7 +7,7 @@ import permit from "../middleware/permit";
 
 const ArtistRouter = express.Router();
 
-ArtistRouter.get("/", async (req, res) => {
+ArtistRouter.get("/" , async (req, res) => {
     try {
         const artist = await Artist.find();
 

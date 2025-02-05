@@ -17,6 +17,7 @@ const Albums = () => {
   const { id } = useParams<{ id: string }>();
   const user = useAppSelector(selectUser);
 
+
   useEffect(() => {
     if (id) {
       dispatch(fetchAlbumsByIdThunk(id));

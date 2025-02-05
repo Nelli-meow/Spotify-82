@@ -7,12 +7,13 @@ import { Link } from 'react-router-dom';
 import PreLoader from '../../components/UI/PreLoader.tsx';
 import { selectUser } from '../users/UsersSlice.ts';
 
-
 const Artists = () => {
   const dispatch = useAppDispatch();
   const artists = useAppSelector(selectArtists);
   const isLoading = useAppSelector(selectIsLoading);
   const user = useAppSelector(selectUser);
+
+  console.log(artists);
 
   useEffect(() => {
     dispatch(fetchArtistsThunk());
@@ -31,27 +32,34 @@ const Artists = () => {
         }
       </div>
       {isLoading ? (
-        <PreLoader/>
+        <PreLoader />
       ) : artists.length === 0 ? (
         <p className="text-center">No artists :(</p>
       ) : (
         <div className="row row-cols-1 row-cols-md-3 g-4">
-          {artists.map((artist) => (
-            <div key={artist._id} className="mb-5">
-              <Link to={`/albums/${artist._id}`} className="text-decoration-none">
-                <ArtistItem name={artist.name} photo={artist.photo} _id={artist._id} />
-              </Link>
-              {user && user.role === 'admin' && (
-                <button className="btn btn-outline-danger" onClick={() => onDelete(artist._id)}>
-                  delete artist
-                </button>
-              )}
-            </div>
-          ))}
+          {artists
+            .filter(artist => user?.role === 'admin' || artist.isPublished)
+            .map((artist) => (
+              <div key={artist._id} className="mb-5">
+                <Link to={`/albums/${artist._id}`} className="text-decoration-none">
+                  <ArtistItem name={artist.name} photo={artist.photo} _id={artist._id} />
+                </Link>
+                {user && user.role === 'admin' && (
+                  <>
+                    <span>{artist.isPublished ? 'Published' : 'Not Published'}</span>
+                    <button
+                      className="btn btn-outline-danger"
+                      onClick={() => onDelete(artist._id)}
+                    >
+                      Delete artist
+                    </button>
+                  </>
+                )}
+              </div>
+            ))}
         </div>
       )}
     </>
-
   );
 };
 
