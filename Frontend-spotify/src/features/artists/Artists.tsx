@@ -5,12 +5,14 @@ import { selectArtists, selectIsLoading } from './artistsSlice.ts';
 import ArtistItem from '../../components/ArtistItem/ArtistItem.tsx';
 import { Link } from 'react-router-dom';
 import PreLoader from '../../components/UI/PreLoader.tsx';
+import { selectUser } from '../users/UsersSlice.ts';
 
 
 const Artists = () => {
   const dispatch = useAppDispatch();
   const artists = useAppSelector(selectArtists);
   const isLoading = useAppSelector(selectIsLoading);
+  const user = useAppSelector(selectUser);
 
   useEffect(() => {
     dispatch(fetchArtistsThunk());
@@ -39,9 +41,11 @@ const Artists = () => {
               <Link to={`/albums/${artist._id}`} className="text-decoration-none">
                 <ArtistItem name={artist.name} photo={artist.photo} _id={artist._id} />
               </Link>
-              <button className="btn btn-outline-danger" onClick={() => onDelete(artist._id)}>
-                delete artist
-              </button>
+              {user && user.role === 'admin' && (
+                <button className="btn btn-outline-danger" onClick={() => onDelete(artist._id)}>
+                  delete artist
+                </button>
+              )}
             </div>
           ))}
         </div>

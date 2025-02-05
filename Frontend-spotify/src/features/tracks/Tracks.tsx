@@ -25,7 +25,6 @@ const Tracks = () => {
     dispatch(deleteTrack(id));
   };
 
-
   return (
     <>
       <h3 className="text-center">Tracks</h3>

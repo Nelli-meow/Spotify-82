@@ -35,6 +35,7 @@ export interface IUser {
   _id: string;
   username: string;
   token: string;
+  role: string;
 }
 
 export interface RegisterResponse {

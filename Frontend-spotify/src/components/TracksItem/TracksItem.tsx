@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { Button } from '@mui/material';
-import { useAppDispatch } from '../../app/hooks.ts';
+import { useAppDispatch, useAppSelector } from '../../app/hooks.ts';
 import { addTrackToHistory } from '../../features/trackHistory/TracksHistoryThunks.ts';
+import { selectUser } from '../../features/users/UsersSlice.ts';
 
 interface TracksProps {
   name: string;
@@ -13,6 +14,7 @@ interface TracksProps {
 
 const TracksItem: React.FC<TracksProps> = ({name, number, duration, _id, onDelete}) => {
   const dispatch = useAppDispatch();
+  const user = useAppSelector(selectUser);
 
   const handlePlay = () => {
     dispatch(addTrackToHistory(_id));
@@ -32,7 +34,9 @@ const TracksItem: React.FC<TracksProps> = ({name, number, duration, _id, onDelet
               <Button onClick={handlePlay}>
                 Play
               </Button>
-              <Button onClick={() => onDelete(_id)} className="text-danger-emphasis">delete track</Button>
+              {user && user.role === 'admin' && (
+                <Button onClick={() => onDelete(_id)} className="text-danger-emphasis">delete track</Button>
+              )}
             </div>
           </div>
         </div>

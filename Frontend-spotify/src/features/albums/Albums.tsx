@@ -6,6 +6,7 @@ import { deleteAlbum, fetchAlbumsByIdThunk } from './albumsThunk.ts';
 import { Link, useParams } from 'react-router-dom';
 import { selectIsLoading } from '../tracks/tracksSlice.ts';
 import PreLoader from '../../components/UI/PreLoader.tsx';
+import { selectUser } from '../users/UsersSlice.ts';
 
 
 const Albums = () => {
@@ -14,6 +15,7 @@ const Albums = () => {
   const artist = useAppSelector(selectArtist);
   const isLoading = useAppSelector(selectIsLoading);
   const { id } = useParams<{ id: string }>();
+  const user = useAppSelector(selectUser);
 
   useEffect(() => {
     if (id) {
@@ -47,9 +49,11 @@ const Albums = () => {
                     photo={album.image}
                   />
                 </Link>
-                <button className="btn btn-outline-danger" onClick={() => onDelete(album._id)}>
-                  delete album
-                </button>
+                {user && user.role === 'admin' && (
+                  <button className="btn btn-outline-danger" onClick={() => onDelete(album._id)}>
+                    delete album
+                  </button>
+                )}
               </div>
             ))}
           </div>
