@@ -17,7 +17,6 @@ const initialState = {
   year: new Date().toString(),
 };
 
-
 const TrackFormPage: React.FC<Props> = ({onSubmit}) => {
   const [track, setTrack] = useState(initialState);
   const navigate = useNavigate();
