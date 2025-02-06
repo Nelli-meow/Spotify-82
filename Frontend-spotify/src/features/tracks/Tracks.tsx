@@ -16,7 +16,6 @@ const Tracks = () => {
   const { id } = useParams<{ id: string }>();
   const user = useAppSelector(selectUser);
 
-
   useEffect(() => {
     if(id) {
       dispatch(fetchTracksByIdThunk(id));

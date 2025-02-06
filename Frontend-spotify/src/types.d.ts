@@ -67,6 +67,7 @@ export interface TracksHistoryMutation {
   duration: string;
   artist: string;
   datetime: string;
+  trackId: ITracks;
 }
 
 export interface TracksHistoryData {

@@ -32,4 +32,25 @@ export const addTrackToHistory = createAsyncThunk<TracksHistoryMutation, string,
 );
 
 
+export const fetchTracksHistory = createAsyncThunk<TracksHistoryMutation[], string, { state: RootState }>(
+  'track-history/fetchTracksHistory',
+  async (userId, { getState }) => {
+    try {
+      const token = getState().users.user?.token;
+
+      if (!token) {
+        console.log('No token');
+      }
+
+      const response = await axiosApi.get<TracksHistoryMutation[]>(`/track-history/${userId}`, {
+        headers: { Authorization: token },
+      });
+
+      return response.data;
+    } catch (e) {
+      console.error(e);
+      throw e;
+    }
+  }
+);
 

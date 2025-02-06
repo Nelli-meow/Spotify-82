@@ -2,19 +2,20 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks.ts';
 import { selectTracksHistory } from './TrackHistorySlice.ts';
 import TracksHistoryItem from '../../components/TracksHistoryItem/TracksHistoryItem.tsx';
 import { useEffect } from 'react';
-import { addTrackToHistory } from './TracksHistoryThunks.ts';
+import { fetchTracksHistory } from './TracksHistoryThunks.ts';
 
 const TrackHistory = () => {
   const tracksHistory = useAppSelector(selectTracksHistory);
   const dispatch = useAppDispatch();
   const token = localStorage.getItem('token');
 
+  console.log(tracksHistory);
 
   useEffect(() => {
-    if(token) {
-      dispatch(addTrackToHistory(token));
+    if (token) {
+      dispatch(fetchTracksHistory(token));
     }
-  },[dispatch, token]);
+  }, [dispatch, token]);
 
   return (
     <>
@@ -23,7 +24,13 @@ const TrackHistory = () => {
         {tracksHistory.length > 0 ? (
           <>
             {tracksHistory.map((track) => (
-            <TracksHistoryItem key={track._id} datetime={track.datetime} artist={track.artist} name={track.name} duration={track.duration} />
+              <TracksHistoryItem
+                key={track._id}
+                datetime={track.datetime}
+                artist={track.trackId.name}
+                name={track.trackId.name}
+                duration={track.trackId.duration}
+              />
             ))}
           </>
         ) : (

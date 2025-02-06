@@ -17,7 +17,6 @@ const Albums = () => {
   const { id } = useParams<{ id: string }>();
   const user = useAppSelector(selectUser);
 
-  console.log(albums);
 
   useEffect(() => {
     if (id) {

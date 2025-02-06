@@ -9,18 +9,18 @@ TracksHistoryRouter.get("/:userId", async (req , res) => {
     try {
         const { userId } = req.params;
 
-        const tracks = await TrackHistory.find({ userId: userId }).populate("trackId");
+        const tracks = await TrackHistory.find({ userId }).populate({
+            path: "trackId",
+        });
 
-        if (!tracks || tracks.length === 0) {
-            res.status(404).send({ message: "Tracks not found" });
+        if (!tracks.length) {
+             res.status(404).send({ message: "Tracks not found" });
             return;
         }
 
-        console.log(tracks);
-
         res.status(200).send(tracks);
     } catch (error) {
-        res.status(500).send({error: 'Something went wrong'});
+        res.status(500).send({ error: 'Something went wrong' });
     }
 });
 
@@ -50,7 +50,6 @@ TracksHistoryRouter.post("/", auth,  async (req, res) => {
         await trackHistory.save();
         const savedTrackHistory = await TrackHistory.findById(trackHistory._id).populate("trackId");
 
-        console.log(savedTrackHistory);
 
         res.status(201).send(savedTrackHistory);
     }catch (error) {

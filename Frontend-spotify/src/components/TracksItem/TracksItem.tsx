@@ -20,7 +20,6 @@ const TracksItem: React.FC<TracksProps> = ({name, number, duration, _id, onDelet
     dispatch(addTrackToHistory(_id));
   };
 
-
   return (
     <>
       <div className="col mb-5">

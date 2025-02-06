@@ -71,8 +71,6 @@ AlbumsRouter.post("/", imagesUpload.single('image'), auth, permit('user', 'admin
         const album = new Album(newAlbum);
         await album.save();
 
-        console.log(album);
-
         res.status(200).send(album);
     } catch (error) {
         console.log(error);

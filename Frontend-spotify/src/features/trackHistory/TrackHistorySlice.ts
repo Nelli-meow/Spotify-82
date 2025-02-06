@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { addTrackToHistory } from './TracksHistoryThunks.ts';
+import { addTrackToHistory, fetchTracksHistory } from './TracksHistoryThunks.ts';
 import { RootState } from '../../app/store.ts';
 import {  TracksHistoryMutation } from '../../types';
 
@@ -34,6 +34,18 @@ const trackHistorySlice = createSlice({
         state.tracksHistory.unshift(track);
       })
       .addCase(addTrackToHistory.rejected, (state) => {
+        state.loading = false;
+      })
+
+      .addCase(fetchTracksHistory.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchTracksHistory.fulfilled, (state, { payload: tracks }) => {
+        state.loading = false;
+        state.tracksHistory = tracks;
+      })
+      .addCase(fetchTracksHistory.rejected, (state) => {
         state.loading = false;
       });
   },

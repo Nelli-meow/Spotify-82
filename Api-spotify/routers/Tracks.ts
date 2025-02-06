@@ -89,7 +89,6 @@ TracksRouter.post("/" , auth, permit('user', 'admin'), async (req, res) => {
         const track = new Track(newTrack);
         await track.save();
 
-        console.log(track)
         res.status(200).send(track);
     } catch (error) {
         res.status(500).send({error: 'something went wrong'});
