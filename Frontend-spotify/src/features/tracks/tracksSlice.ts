@@ -1,5 +1,5 @@
 import { ITracks } from '../../types';
-import { addNewTrack, deleteTrack, fetchTracksByIdThunk } from './tracksThunk.ts';
+import { addNewTrack, deleteTrack, fetchTracksByIdThunk, fetchTracksThunk, publishTracks } from './tracksThunk.ts';
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store.ts';
 
@@ -9,6 +9,7 @@ interface ITracksState {
   fetchTracksById: boolean;
   isLoading: boolean;
   deleteTrack: boolean;
+  isPublished: boolean;
 }
 
 const initialState: ITracksState = {
@@ -17,6 +18,7 @@ const initialState: ITracksState = {
   fetchTracksById: false,
   isLoading: false,
   deleteTrack: false,
+  isPublished: false,
 };
 
 export const selectTracks  = (state: RootState) => state.tracks.Tracks;
@@ -35,6 +37,16 @@ const tracksSlice = createSlice({
         state.Tracks = tracks;
       })
       .addCase(fetchTracksByIdThunk.rejected, (state) => {
+        state.fetchTracksById = false;
+      })
+
+      .addCase(fetchTracksThunk.pending, (state) => {
+        state.fetchTracksById = true;
+      })
+      .addCase(fetchTracksThunk.fulfilled, (state, { payload: tracks }) => {
+        state.Tracks = tracks;
+      })
+      .addCase(fetchTracksThunk.rejected, (state) => {
         state.fetchTracksById = false;
       })
 
@@ -57,6 +69,19 @@ const tracksSlice = createSlice({
       })
       .addCase(deleteTrack.rejected, (state) => {
         state.deleteTrack = false;
+      })
+
+      .addCase(publishTracks.pending, (state) => {
+        state.isPublished = true;
+      })
+      .addCase(publishTracks.fulfilled, (state,{payload}) => {
+        state.isPublished = false;
+        state.Tracks = state.Tracks.map((track) =>
+          track._id === payload._id ? { ...track, isPublished: true } : track
+        );
+      })
+      .addCase(publishTracks.rejected, (state) => {
+        state.isPublished = false;
       });
 
   }

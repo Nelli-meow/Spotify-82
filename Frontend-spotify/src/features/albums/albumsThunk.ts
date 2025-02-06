@@ -61,3 +61,17 @@ export const deleteAlbum = createAsyncThunk(
     }
   }
 );
+
+
+export const publishAlbums = createAsyncThunk(
+  'albums/publishAlbums',
+  async (id: string, { rejectWithValue }) => {
+    try {
+      const response = await axiosApi.patch(`/albums/${id}/togglePublished`);
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);

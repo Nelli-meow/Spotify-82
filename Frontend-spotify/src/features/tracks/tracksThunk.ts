@@ -1,6 +1,16 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axiosApi from '../../axiosApi.ts';
-import { ITrackMutation } from '../../types';
+import { ITrackMutation, ITracks } from '../../types';
+
+
+export const fetchTracksThunk = createAsyncThunk<ITracks[], void>(
+  'tracks/fetchTracksThunk',
+  async () => {
+    const artistsResponse = await axiosApi<ITracks[]>('/tracks');
+
+    return artistsResponse.data || [];
+  }
+);
 
 export const fetchTracksByIdThunk = createAsyncThunk(
   'tracks/fetchTracksByIdThunk',
@@ -35,6 +45,19 @@ export const deleteTrack = createAsyncThunk(
       await  axiosApi.delete(`/tracks/${id}`);
     } catch (error) {
       return (error);
+    }
+  }
+);
+
+export const publishTracks = createAsyncThunk(
+  'tracks/publishTracks',
+  async (id: string, { rejectWithValue }) => {
+    try {
+      const response = await axiosApi.patch(`/tracks/${id}/togglePublished`);
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error);
     }
   }
 );

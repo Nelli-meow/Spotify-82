@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import { selectIsLoading, selectTracks } from './tracksSlice.ts';
 import PreLoader from '../../components/UI/PreLoader.tsx';
 import { fetchAlbumsThunk } from '../albums/albumsThunk.ts';
+import { selectUser } from '../users/UsersSlice.ts';
 
 
 const Tracks = () => {
@@ -13,6 +14,8 @@ const Tracks = () => {
   const tracks = useAppSelector(selectTracks);
   const isLoading = useAppSelector(selectIsLoading);
   const { id } = useParams<{ id: string }>();
+  const user = useAppSelector(selectUser);
+
 
   useEffect(() => {
     if(id) {
@@ -35,11 +38,23 @@ const Tracks = () => {
           <p className="text-center">No tracks :(</p>
         ) : (
           <div className="row">
-            {tracks.map((track) => (
-              <div key={track._id}>
-                <TracksItem name={track.name} duration={track.duration} number={track.number} _id={track._id} onDelete={onDelete} />
-              </div>
-            ))}
+            {tracks
+              .filter(track => user?.role === 'admin' || track.isPublished)
+              .map((track) => (
+                <div key={track._id}>
+                  <div className="d-flex align-items-center">
+                    <TracksItem
+                      name={track.name}
+                      duration={track.duration}
+                      number={track.number}
+                      _id={track._id}
+                      onDelete={onDelete}
+                    />
+                    <span>{track.isPublished ? 'Published' : 'Not Published'}</span>
+                  </div>
+
+                </div>
+              ))}
           </div>
         )}
       </div>

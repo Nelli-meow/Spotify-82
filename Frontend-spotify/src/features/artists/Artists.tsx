@@ -13,8 +13,6 @@ const Artists = () => {
   const isLoading = useAppSelector(selectIsLoading);
   const user = useAppSelector(selectUser);
 
-  console.log(artists);
-
   useEffect(() => {
     dispatch(fetchArtistsThunk());
   }, [dispatch]);
@@ -40,8 +38,8 @@ const Artists = () => {
           {artists
             .filter(artist => user?.role === 'admin' || artist.isPublished)
             .map((artist) => (
-              <div key={artist._id} className="mb-5">
-                <Link to={`/albums/${artist._id}`} className="text-decoration-none">
+              <div key={artist._id} className="my-5">
+                <Link to={`/albums/${artist._id}`} className="text-decoration-none mb-5">
                   <ArtistItem name={artist.name} photo={artist.photo} _id={artist._id} />
                 </Link>
                 {user && user.role === 'admin' && (

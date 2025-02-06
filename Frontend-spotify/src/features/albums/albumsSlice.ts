@@ -1,7 +1,8 @@
 import { IAlbums } from '../../types';
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store.ts';
-import { addNewAlbum, deleteAlbum, fetchAlbumsByIdThunk, fetchAlbumsThunk } from './albumsThunk.ts';
+import { addNewAlbum, deleteAlbum, fetchAlbumsByIdThunk, fetchAlbumsThunk, publishAlbums } from './albumsThunk.ts';
+
 
 interface IAlbumsState {
   Albums: IAlbums[];
@@ -10,6 +11,7 @@ interface IAlbumsState {
   fetchAlbumsById: boolean;
   isLoading: boolean,
   deleteAlbum: boolean;
+  isPublished: boolean;
 }
 
 const initialState: IAlbumsState = {
@@ -19,11 +21,11 @@ const initialState: IAlbumsState = {
   fetchAlbumsById: false,
   isLoading: false,
   deleteAlbum: false,
+  isPublished: false,
 };
 
 export const selectAlbums  = (state: RootState) => state.albums.Albums;
 export const selectArtist = (state: RootState) => state.albums.Artist;
-export const selectIsLoading = (state: RootState) => state.albums.isLoading;
 
 export const albumsSlice = createSlice({
   name: 'albums',
@@ -73,6 +75,19 @@ export const albumsSlice = createSlice({
       })
       .addCase(deleteAlbum.rejected, (state) => {
         state.deleteAlbum = false;
+      })
+
+      .addCase(publishAlbums.pending, (state) => {
+        state.isPublished = true;
+      })
+      .addCase(publishAlbums.fulfilled, (state,{payload}) => {
+        state.isPublished = false;
+        state.Albums = state.Albums.map((Album) =>
+          Album._id === payload._id ? { ...Album, isPublished: true } : Album
+        );
+      })
+      .addCase(publishAlbums.rejected, (state) => {
+        state.isPublished = false;
       });
   }
 });

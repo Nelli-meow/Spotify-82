@@ -6,10 +6,9 @@ interface AlbumsProps {
   name: string;
   photo?: string | null;
   year: string;
-  num: string;
 }
 
-const AlbumItem: React.FC<AlbumsProps> = ({name, photo, year, num}) => {
+const AlbumItem: React.FC<AlbumsProps> = ({name, photo, year}) => {
   const imageSrc = photo ? `${apiURL}/${photo}` : NoPic;
 
   return (
@@ -20,7 +19,6 @@ const AlbumItem: React.FC<AlbumsProps> = ({name, photo, year, num}) => {
           <div className="card-body d-flex flex-column justify-content-between">
             <h3 className="card-title">{name}</h3>
             <span>{year}</span>
-            <span>{num}</span>
           </div>
         </div>
       </div>

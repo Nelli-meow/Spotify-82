@@ -13,7 +13,7 @@ const ArtistItem: React.FC<ArtistProps> = ({name, photo}) => {
 
   return (
     <>
-      <div className="col h-100 d-flex">
+      <div className="col mb-5 h-100 d-flex">
         <div className="card">
           <img src={imageSrc} className="card-img-top" alt={name}/>
           <div className="card-body d-flex flex-column align-items-center">

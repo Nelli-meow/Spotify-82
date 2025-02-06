@@ -2,15 +2,15 @@ export interface IArtists {
   name: string;
   photo: string | null;
   information: string;
-  _id: string;
   isPublished: boolean;
+  _id: string;
 }
 
 export interface IAlbums {
   name: string;
   image: string;
-  number: string;
   year: string;
+  isPublished: boolean;
   _id: string;
 }
 
@@ -19,6 +19,7 @@ export interface ITracks {
   duration: string;
   number: number;
   year: string;
+  isPublished: boolean;
   _id: string;
 }
 

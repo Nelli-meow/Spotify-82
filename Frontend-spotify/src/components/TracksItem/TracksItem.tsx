@@ -20,6 +20,7 @@ const TracksItem: React.FC<TracksProps> = ({name, number, duration, _id, onDelet
     dispatch(addTrackToHistory(_id));
   };
 
+
   return (
     <>
       <div className="col mb-5">
@@ -35,7 +36,9 @@ const TracksItem: React.FC<TracksProps> = ({name, number, duration, _id, onDelet
                 Play
               </Button>
               {user && user.role === 'admin' && (
-                <Button onClick={() => onDelete(_id)} className="text-danger-emphasis">delete track</Button>
+                <>
+                  <Button onClick={() => onDelete(_id)} className="text-danger-emphasis ms-2">delete track</Button>
+                </>
               )}
             </div>
           </div>

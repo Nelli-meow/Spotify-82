@@ -51,7 +51,7 @@ const TrackFormPage: React.FC<Props> = ({onSubmit}) => {
 
   return (
     <div className="container mt-4">
-      <h2 className="mb-4 text-center">Add new Album</h2>
+      <h2 className="mb-4 text-center">Add new Track</h2>
       <form onSubmit={onSubmitAlbum} className="border p-4 rounded shadow bg-light">
         <div className="mb-3">
           <label htmlFor="name" className="form-label">

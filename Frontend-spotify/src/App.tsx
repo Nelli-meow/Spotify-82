@@ -13,6 +13,9 @@ import { selectUser } from './features/users/UsersSlice.ts';
 import NewAlbum from './features/albums/albumContainers/NewAlbum.tsx';
 import NewTrack from './features/tracks/trackContainers/NewTrack.tsx';
 import AdminPage from './containers/AdminPage/AdminPage.tsx';
+import UnpublishedArtists from './containers/AdminPage/UnpublishedArtists/UnpublishedArtists.tsx';
+import UnpublishedAlbums from './containers/AdminPage/UnpublishedAlbums/UnpublishedAlbums.tsx';
+import UnpublishedTracks from './containers/AdminPage/UnpublishedTracks/UnpublishedTracks.tsx';
 
 const App = () => {
   const user = useAppSelector(selectUser);
@@ -45,6 +48,21 @@ const App = () => {
           <Route path="/unpublished" element={
             <ProtectedRoute isaAllowed={user && user.role == 'admin'}>
               <AdminPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/unpublished-artists" element={
+            <ProtectedRoute isaAllowed={user && user.role == 'admin'}>
+              <UnpublishedArtists />
+            </ProtectedRoute>
+          } />
+          <Route path="/unpublished-albums" element={
+            <ProtectedRoute isaAllowed={user && user.role == 'admin'}>
+              <UnpublishedAlbums />
+            </ProtectedRoute>
+          } />
+          <Route path="/unpublished-tracks" element={
+            <ProtectedRoute isaAllowed={user && user.role == 'admin'}>
+              <UnpublishedTracks />
             </ProtectedRoute>
           } />
 

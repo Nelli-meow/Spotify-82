@@ -17,6 +17,7 @@ const Albums = () => {
   const { id } = useParams<{ id: string }>();
   const user = useAppSelector(selectUser);
 
+  console.log(albums);
 
   useEffect(() => {
     if (id) {
@@ -46,14 +47,16 @@ const Albums = () => {
                   <AlbumItem
                     name={album.name}
                     year={album.year}
-                    num={album.number}
                     photo={album.image}
                   />
                 </Link>
                 {user && user.role === 'admin' && (
-                  <button className="btn btn-outline-danger" onClick={() => onDelete(album._id)}>
-                    delete album
-                  </button>
+                  <>
+                    <span>{album.isPublished ? 'Published' : 'Not Published'}</span>
+                    <button className="btn btn-outline-danger" onClick={() => onDelete(album._id)}>
+                      delete album
+                    </button>
+                  </>
                 )}
               </div>
             ))}
