@@ -5,13 +5,14 @@ import auth, {RequestWithUser} from "../middleware/auth";
 import {OAuth2Client} from "google-auth-library";
 import config from "../config";
 import crypto from 'crypto';
+import {imagesUpload} from "../multer";
 
 
 const client = new OAuth2Client(config.google.clientID);
 
 const UsersRouter = express.Router();
 
-UsersRouter.post("/google", async (req, res, next) => {
+UsersRouter.post("/google",  imagesUpload.single('image'), async (req, res, next) => {
     try {
         const ticket = await client.verifyIdToken({
                 idToken: req.body.credential,
@@ -29,6 +30,7 @@ UsersRouter.post("/google", async (req, res, next) => {
         const email = payload.email;
         const id = payload.sub;
         const displayName = payload.name;
+        const image = payload.picture;
 
         if(!email) {
             res.status(401).send({error: 'email is not found. Google login failed'});
@@ -39,10 +41,11 @@ UsersRouter.post("/google", async (req, res, next) => {
 
         if(!user) {
             user = new User({
-                username: displayName,
+                username: email,
                 password: crypto.randomUUID(),
                 googleId: id,
                 displayName: displayName,
+                image: image,
             })
         }
 
@@ -64,12 +67,14 @@ UsersRouter.get('/', async (req, res) => {
     }
 });
 
-UsersRouter.post('/register', async (req, res) => {
+UsersRouter.post('/register' , imagesUpload.single('image'), async (req, res) => {
 
     try {
         const user = new User({
             username: req.body.username,
-            password: req.body.password
+            password: req.body.password,
+            displayName: req.body.displayName,
+            image:  req.file ? 'images' + req.file.filename : null,
         });
 
         user.generateToken();

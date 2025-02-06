@@ -253,12 +253,14 @@ const run = async () => {
             password: "123",
             token: randomUUID(),
             role: "user",
+            displayName: "meow",
         },
         {
             username: 'John',
             password: "666",
             token: randomUUID(),
             role: "admin",
+            displayName: "bark",
         }
     );
 

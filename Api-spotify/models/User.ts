@@ -46,9 +46,14 @@ const UserSchema = new Schema<
     },
     displayName: {
         type: String,
+        required: true,
     },
     googleId: {
         type: String,
+    },
+    image: {
+        type: String,
+        default: null,
     },
     token: {
         type: String,

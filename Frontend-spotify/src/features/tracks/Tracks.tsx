@@ -13,15 +13,15 @@ const Tracks = () => {
   const dispatch = useAppDispatch();
   const tracks = useAppSelector(selectTracks);
   const isLoading = useAppSelector(selectIsLoading);
-  const { id } = useParams<{ id: string }>();
+  const {id} = useParams<{ id: string }>();
   const user = useAppSelector(selectUser);
 
   useEffect(() => {
-    if(id) {
+    if (id) {
       dispatch(fetchTracksByIdThunk(id));
       dispatch(fetchAlbumsThunk());
     }
-  },[dispatch, id]);
+  }, [dispatch, id]);
 
   const onDelete = (id: string) => {
     dispatch(deleteTrack(id));
@@ -32,7 +32,7 @@ const Tracks = () => {
       <h3 className="text-center">Tracks</h3>
       <div className="container">
         {isLoading ? (
-          <PreLoader />
+          <PreLoader/>
         ) : tracks.length === 0 ? (
           <p className="text-center">No tracks :(</p>
         ) : (
@@ -49,9 +49,10 @@ const Tracks = () => {
                       _id={track._id}
                       onDelete={onDelete}
                     />
-                    <span>{track.isPublished ? 'Published' : 'Not Published'}</span>
+                    {user && user.role === 'admin' && (
+                      <span>{track.isPublished ? 'Published' : 'Not Published'}</span>
+                    )}
                   </div>
-
                 </div>
               ))}
           </div>

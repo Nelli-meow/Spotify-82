@@ -26,6 +26,8 @@ export interface ITracks {
 export interface RegisterMutation {
   username: string;
   password: string;
+  displayName: string;
+  image: string | null;
 }
 
 export interface LoginMutation {
@@ -38,6 +40,8 @@ export interface IUser {
   username: string;
   token: string;
   role: string;
+  image?: string | null;
+  displayName: string;
 }
 
 export interface RegisterResponse {
@@ -68,13 +72,6 @@ export interface TracksHistoryMutation {
   artist: string;
   datetime: string;
   trackId: ITracks;
-}
-
-export interface TracksHistoryData {
-  _id: string;
-  userId: string;
-  trackId: string;
-  datetime: string;
 }
 
 export interface IArtistsMutation {

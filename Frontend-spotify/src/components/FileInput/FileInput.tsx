@@ -31,7 +31,7 @@ const FileInput: React.FC<FileInputProps> = ({name, label, onGetFile}) => {
     <div className="input-group mb-3">
       <input
         className="form-control"
-        style={{display: "none"}}
+        style={{display: 'none'}}
         type="file"
         name={name}
         onChange={onFileChange}

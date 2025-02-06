@@ -27,4 +27,5 @@ export interface UserFields {
     displayName: string;
     googleId: string;
     email: string;
+    image: string;
 }

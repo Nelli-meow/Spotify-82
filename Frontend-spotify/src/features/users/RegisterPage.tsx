@@ -5,11 +5,14 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks.ts';
 import { selectRegisterError } from './UsersSlice.ts';
 import { Link, useNavigate } from 'react-router-dom';
 import { register } from './usersThunk.ts';
+import FileInput from '../../components/FileInput/FileInput.tsx';
 
 
 const initialState = {
   username: '',
   password: '',
+  image: '',
+  displayName: ''
 };
 
 const RegisterPage = () => {
@@ -42,6 +45,17 @@ const RegisterPage = () => {
       return registerError?.errors[fieldName].message;
     } catch (e) {
       return e;
+    }
+  };
+
+  const getImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const {name, files} = e.target;
+
+    if (files) {
+      setForm(prevState => ({
+        ...prevState,
+        [name]: files[0] || null,
+      }));
     }
   };
 
@@ -81,6 +95,21 @@ const RegisterPage = () => {
                 <div className="invalid-feedback">{getFiledError('password')}</div>
               )}
             </div>
+            <div className="form-group">
+              <label htmlFor="displayName">Display Name</label>
+              <input
+                id="displayName"
+                name="displayName"
+                value={form.displayName}
+                onChange={inputChange}
+                type="text"
+                className="form-control"
+                placeholder="Enter Display Name"
+              />
+            </div>
+            <div className="form-group my-3">
+              <FileInput name="image" label="Image" onGetFile={getImage}/>
+            </div>
             <button type="submit" className="btn btn-primary mt-2">
               Submit
             </button>
@@ -89,8 +118,6 @@ const RegisterPage = () => {
         </form>
       </div>
     </>
-
-
   );
 };
 
