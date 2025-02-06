@@ -4,7 +4,8 @@ import { RegisterMutation } from '../../types';
 import { useAppDispatch, useAppSelector } from '../../app/hooks.ts';
 import { selectLoginError } from './UsersSlice.ts';
 import { Link, useNavigate } from 'react-router-dom';
-import { login } from './usersThunk.ts';
+import { googleLogin, login } from './usersThunk.ts';
+import { GoogleLogin } from '@react-oauth/google';
 
 
 const initialState = {
@@ -12,7 +13,7 @@ const initialState = {
   password: '',
 };
 
-const RegisterPage = () => {
+const LoginPage = () => {
   const [form, setForm] = useState<RegisterMutation>({...initialState});
   const dispatch = useAppDispatch();
   const loginError = useAppSelector(selectLoginError);
@@ -21,10 +22,10 @@ const RegisterPage = () => {
   const inputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const {name, value} = e.target;
 
-    setForm(prev => ({ ...prev, [name]: value }));
+    setForm(prev => ({...prev, [name]: value}));
   };
 
-  const onSubmit =  async  (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     await dispatch(login(form)).unwrap();
@@ -33,12 +34,28 @@ const RegisterPage = () => {
     setForm(initialState);
   };
 
+  const googleLoginHandler = async (credential: string) => {
+    await dispatch(googleLogin(credential)).unwrap();
+    navigate('/');
+  };
+
   return (
     <>
       <div className="container">
         <form onSubmit={onSubmit}>
           <div className="d-flex flex-column align-items-center">
             <h3 className="my-5">Sign in</h3>
+
+            <div className="mb-3">
+              <GoogleLogin
+                onSuccess={(credentialResponse) => {
+                  if(credentialResponse.credential) {
+                    void googleLoginHandler(credentialResponse.credential);
+                  }
+                }}
+                onError={() => alert('Login failed')}
+              />
+            </div>
 
             {loginError && (
               <div className="alert alert-danger" role="alert">
@@ -53,7 +70,7 @@ const RegisterPage = () => {
                 value={form.username}
                 onChange={inputChange}
                 type="text"
-                className='form-control'
+                className="form-control"
                 placeholder="Enter Username"
               />
             </div>
@@ -65,7 +82,7 @@ const RegisterPage = () => {
                 value={form.password}
                 onChange={inputChange}
                 type="password"
-                className='form-control'
+                className="form-control"
                 placeholder="Enter Username"
               />
             </div>
@@ -81,4 +98,4 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage;
+export default LoginPage;

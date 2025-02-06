@@ -20,6 +20,7 @@ const UserSchema = new Schema<
     UserModel,
     UserMethods>({
 
+    email: String,
     username: {
         type: String,
         required: true,
@@ -42,6 +43,12 @@ const UserSchema = new Schema<
         required: true,
         default: 'user',
         enum: ["admin", "user"],
+    },
+    displayName: {
+        type: String,
+    },
+    googleId: {
+        type: String,
     },
     token: {
         type: String,

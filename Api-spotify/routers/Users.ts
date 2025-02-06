@@ -2,8 +2,58 @@ import express from 'express';
 import User from '../models/User';
 import {Error} from 'mongoose';
 import auth, {RequestWithUser} from "../middleware/auth";
+import {OAuth2Client} from "google-auth-library";
+import config from "../config";
+import crypto from 'crypto';
+
+
+const client = new OAuth2Client(config.google.clientID);
 
 const UsersRouter = express.Router();
+
+UsersRouter.post("/google", async (req, res, next) => {
+    try {
+        const ticket = await client.verifyIdToken({
+                idToken: req.body.credential,
+                audience: config.google.clientID,
+            }
+        )
+
+        const payload = ticket.getPayload();
+
+        if(!payload) {
+            res.status(401).send({error: 'Invalid credentials. Google login failed'});
+            return;
+        }
+
+        const email = payload.email;
+        const id = payload.sub;
+        const displayName = payload.name;
+
+        if(!email) {
+            res.status(401).send({error: 'email is not found. Google login failed'});
+            return;
+        }
+
+        let user = await User.findOne({googleID: id});
+
+        if(!user) {
+            user = new User({
+                username: displayName,
+                password: crypto.randomUUID(),
+                googleId: id,
+                displayName: displayName,
+            })
+        }
+
+        user.generateToken();
+        await user.save();
+
+        res.status(200).send({message: 'Login with Google successfully', user});
+    } catch (e) {
+        next(e);
+    }
+});
 
 UsersRouter.get('/', async (req, res) => {
     try {
@@ -41,14 +91,14 @@ UsersRouter.post('/sessions', async (req, res) => {
         });
 
         if (!user) {
-            res.status(400).send({error:'Username Not Found'});
+            res.status(400).send({error: 'Username Not Found'});
             return;
         }
 
         const isMatch = await user.checkPassword(req.body.password);
 
-        if(!isMatch) {
-            res.status(400).send({error:'Password is incorrect'});
+        if (!isMatch) {
+            res.status(400).send({error: 'Password is incorrect'});
             return;
         }
 
@@ -65,24 +115,24 @@ UsersRouter.post('/sessions', async (req, res) => {
     }
 });
 
-UsersRouter.delete('/sessions', auth,  async (req, res) => {
-   let reqWithAuth = req as RequestWithUser;
-   const userFromAuth =  reqWithAuth.user;
+UsersRouter.delete('/sessions', auth, async (req, res) => {
+    let reqWithAuth = req as RequestWithUser;
+    const userFromAuth = reqWithAuth.user;
 
-   try {
-       const user = await User.findOne({
-           _id: userFromAuth._id,
-       });
+    try {
+        const user = await User.findOne({
+            _id: userFromAuth._id,
+        });
 
-       if(user) {
-           user.generateToken();
-           await user.save();
+        if (user) {
+            user.generateToken();
+            await user.save();
 
-           res.send({message: 'Success logout'});
-       }
-   } catch (e) {
-       res.status(400).send({error: 'An error occurred'});
-   }
+            res.send({message: 'Success logout'});
+        }
+    } catch (e) {
+        res.status(400).send({error: 'An error occurred'});
+    }
 
 });
 

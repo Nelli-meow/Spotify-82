@@ -3,7 +3,6 @@ import {Route, Routes} from 'react-router-dom';
 import Albums from './features/albums/Albums.tsx';
 import Tracks from './features/tracks/Tracks.tsx';
 import RegisterPage from './features/users/RegisterPage.tsx';
-import LoginPage from './features/users/LoginPage.tsx';
 import TracksHistory from './features/trackHistory/TracksHistory.tsx';
 import Header from './components/Header/Header.tsx';
 import NewArtist from './features/artists/artistContainers/NewArtist.tsx';
@@ -16,6 +15,7 @@ import AdminPage from './containers/AdminPage/AdminPage.tsx';
 import UnpublishedArtists from './containers/AdminPage/UnpublishedArtists/UnpublishedArtists.tsx';
 import UnpublishedAlbums from './containers/AdminPage/UnpublishedAlbums/UnpublishedAlbums.tsx';
 import UnpublishedTracks from './containers/AdminPage/UnpublishedTracks/UnpublishedTracks.tsx';
+import LoginPage from './features/users/LoginPage.tsx';
 
 const App = () => {
   const user = useAppSelector(selectUser);

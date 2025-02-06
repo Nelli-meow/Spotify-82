@@ -4,6 +4,23 @@ import axiosApi from '../../axiosApi.ts';
 import { isAxiosError } from 'axios';
 import { RootState } from '../../app/store.ts';
 
+
+export const googleLogin = createAsyncThunk<IUser, string, {rejectValue: GlobalError}>(
+  'users/googleLogin',
+  async (credential, {rejectWithValue}) => {
+    try {
+      const response = await axiosApi.post<RegisterResponse>('/users/google', {credential});
+
+      return response.data.user;
+    } catch (e) {
+      if(isAxiosError(e) && e.response && e.response.status === 400 ) {
+        return rejectWithValue(e.response.data as GlobalError);
+      }
+      throw e;
+    }
+  }
+);
+
 export const register = createAsyncThunk<
   RegisterResponse,
   RegisterMutation,
@@ -45,6 +62,6 @@ export const logout = createAsyncThunk<void, void, {state: RootState}>(
   async (_,{getState}) => {
     const token = getState().users.user?.token;
 
-    await axiosApi.delete('/users/sessions', {headers: {'Authorization': token}})
+    await axiosApi.delete('/users/sessions', {headers: {'Authorization': token}});
   }
 );
